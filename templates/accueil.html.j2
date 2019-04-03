@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Organisation de tournoi</title>
+    <!-- On importe notre frichier css -->
+    <link href="{{ url_for('static', filename='mon_style.css') }}" rel="stylesheet" type="text/css" />
+    <!-- On importe la librairie Brython -->
+    <script type="text/javascript" src="{{url_for('static', filename='brython.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='brython_stdlib.js') }}"></script>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  </head>
+
+  <body onload="brython(1)">
+    <header  class="site-header"><h1>{{ titre }}</h1></header>  <!-- On affiche le titre -->
+    <section  class="site-content">
+      <div id="selection_type">
+        <form method="post" action="{{ url_for('player_entry') }}">
+          <!--Sélction du type de tournoi-->
+          <h5><b>Séléctionnez le type de tournoi :</b></h5>
+          <input type="radio" name="type_tournoi" value="Ligue" id="ligue" checked>
+          <label for="ligue">Ligue</label><br/>
+          <input type="radio" name="type_tournoi" value="Simple élimination" id="1elim">
+          <label for="1elim">Simple élimination</label><br/>
+          <input type="radio" name="type_tournoi" value="Double élimination" id="2elim">
+          <label for="2elim">Double élimination</label>
+          <br/><br/>
+          <br/><br/>
+          <!--Entrée du nombre de joueurs-->
+          <label class="label_nbr_player" for="nbr_player"><b>Nombre de joueurs:</b></label><br/><br/>
+          <input type="number" min="0" max="1024" value="8" step="1" id="nbr_player" name="nbr_player" />
+          <br/><br/>
+          <br/>
+          <!--Bouton d'envoi du formulaire-->
+          <input value="Continuer" type="submit" />
+        </form>
+      </div>
+    </section>
+    <footer>
+
+    </footer>
+  </body>
+</html>

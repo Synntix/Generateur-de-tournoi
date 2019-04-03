@@ -1,0 +1,60 @@
+html, body {
+    padding: 0;
+    height: 100%;
+    margin: 0;}
+
+body {
+    display:table;
+    width:80%;
+    background-color:#1A1A1A;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+header,section,footer {display:table-row;}
+
+section {
+  height:75%;
+  min-height:100%;
+}
+
+h1 {
+    color: red;
+    text-align: center;
+    text-decoration: underline;
+  }
+
+#bouton_retour {
+  text-decoration: none;
+  text-align: left;
+  color:orange;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+h5 {
+  text-decoration: underline;
+  font-size: 20px;
+}
+
+.label_nbr_player {
+  text-decoration: underline;
+  font-size: 20px;
+}
+
+header div {
+  width:200px;
+}
+
+#matchs {
+  height: 70px;
+  width: 300px;
+  background-color: #2A2A2A ;
+  border-radius: 4px;
+  margin-top: 15px;
+  border: solid white 2px;
+  text-align: center;
+  color:orange;
+}
