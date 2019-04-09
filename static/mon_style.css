@@ -37,11 +37,7 @@ h1 {
 h5 {
   text-decoration: underline;
   font-size: 20px;
-}
-
-.label_nbr_player {
-  text-decoration: underline;
-  font-size: 20px;
+  color:orange;
 }
 
 header div {

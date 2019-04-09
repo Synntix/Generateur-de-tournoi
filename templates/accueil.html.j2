@@ -8,13 +8,13 @@
     <!-- On importe la librairie Brython -->
     <script type="text/javascript" src="{{url_for('static', filename='brython.js') }}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='brython_stdlib.js') }}"></script>
-
+    <!-- On importe notre favicon et la police -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   </head>
 
   <body onload="brython(1)">
-    <header  class="site-header"><h1>{{ titre }}</h1></header>  <!-- On affiche le titre -->
+    <header  class="site-header"><h1>Accueil</h1></header>  <!-- On affiche le titre -->
     <section  class="site-content">
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
@@ -29,7 +29,7 @@
           <br/><br/>
           <br/><br/>
           <!--Entrée du nombre de joueurs-->
-          <label class="label_nbr_player" for="nbr_player"><b>Nombre de joueurs:</b></label><br/><br/>
+          <h5>Nombre de joueurs:</h5>
           <input type="number" min="0" max="1024" value="8" step="1" id="nbr_player" name="nbr_player" />
           <br/><br/>
           <br/>

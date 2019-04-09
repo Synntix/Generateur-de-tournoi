@@ -3,9 +3,10 @@
 from flask import Flask, render_template, url_for, request
 app = Flask(__name__)   # Initialise l'application Flask
 
-@app.route('/')  # C'est un décorateur, on donne la route ici "/"  l'adresse sera donc localhost:5000/
+@app.route('/')  #C'est un décorateur, on donne la route ici "/"  l'adresse sera donc localhost:5000/
 def accueil():
-    return render_template("accueil.html.j2", titre="Accueil") # On utilise le template accueil.html, avec les variables titre et lignes
+    #On utilise le template accueil.html, avec les variables titre et lignes
+    return render_template("accueil.html.j2")
 
 @app.route('/player_entry/', methods=['POST'])
 def player_entry():
@@ -17,15 +18,20 @@ def player_entry():
 
 @app.route('/display/', methods=['POST'])
 def display():
+    #On crée la liste 'Players' et on ajoute tous les pseudo des participants
     global Players
     Players=[]
     for i in range(1,Nbr_player+1) :
         Players.append(request.form['pseudo{}'.format(i)])
-    print(Players)
+    #On utilise le template accueil.html, avec les variables titre et lignes
     return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
 @app.route('/results/', methods=['POST'])
 def results():
+    results=[]
+    for i in range(1,Nbr_player+1) :
+        results.append(request.form['match{}'.format(i)])
+    #On utilise le template accueil.html, avec les variables titre et lignes
     return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
 if __name__ == '__main__' :
