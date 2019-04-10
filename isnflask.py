@@ -1,6 +1,9 @@
 ﻿#! python3
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, url_for, request
+import sqlite3
+import tournament
+import tournoi_DB
 app = Flask(__name__)   # Initialise l'application Flask
 
 @app.route('/')  #C'est un décorateur, on donne la route ici "/"  l'adresse sera donc localhost:5000/
@@ -14,6 +17,7 @@ def player_entry():
     global Type_tournoi
     Nbr_player=int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
+    print(tournament.main(Nbr_player,True))
     return render_template('page2.html.j2' , nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
 @app.route('/display/', methods=['POST'])
@@ -23,6 +27,9 @@ def display():
     Players=[]
     for i in range(1,Nbr_player+1) :
         Players.append(request.form['pseudo{}'.format(i)])
+
+    tournoi_DB.main()
+    print(tournoi_DB.getid(Players))
     #On utilise le template accueil.html, avec les variables titre et lignes
     return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
