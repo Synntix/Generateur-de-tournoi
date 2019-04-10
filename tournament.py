@@ -2,12 +2,12 @@ import random
 
 
 
-def main(args): # https://fr.wikipedia.org/wiki/Table_de_Berger
+def main(n,shorten): # https://fr.wikipedia.org/wiki/Table_de_Berger
 
     #init variables
-    n=6
+    #n=6
     global shorten  # raccourcir en enlevant les matchs doublons
-    shorten=True
+    #shorten=True
     global cpt      # compteur de matchs
     cpt=0
     global matchlist# liste des matchs sous forme de tuples (ronde,joueur1,joueur2)
