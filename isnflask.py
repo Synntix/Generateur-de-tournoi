@@ -23,7 +23,7 @@ def player_entry():
     elif Short=="1":
         Short=True
 
-    print(tournament.main(Nbr_player,Short))
+    tournament.main(Nbr_player,Short)
     return render_template('page2.html.j2' , nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
 @app.route('/display/', methods=['POST'])
@@ -40,7 +40,7 @@ def display():
     #On donne la liste des joueurs à la base de donnée
     #tournoi_DB.getid(Players)
     #On utilise le template accueil.html, avec les variables titre et lignes
-    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, nbr_matchs=Nbr_matchs, n=1)
+    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, nbr_matchs=Nbr_matchs)
 
 @app.route('/results/', methods=['POST'])
 def results():
