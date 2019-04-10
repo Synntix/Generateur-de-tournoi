@@ -2,12 +2,11 @@ import random
 
 
 
-def main(n,shorten): # https://fr.wikipedia.org/wiki/Table_de_Berger
+def main(n,short): # https://fr.wikipedia.org/wiki/Table_de_Berger
 
     #init variables
-    #n=6
-    global shorten  # raccourcir en enlevant les matchs doublons
-    #shorten=True
+    #global short  # raccourcir en enlevant les matchs doublons
+    #short=s       #
     global cpt      # compteur de matchs
     cpt=0
     global matchlist# liste des matchs sous forme de tuples (ronde,joueur1,joueur2)
@@ -22,36 +21,32 @@ def main(n,shorten): # https://fr.wikipedia.org/wiki/Table_de_Berger
                 if b!=n:
                     if a+b-1<n:
                         if r==a+b-1:
-                            #cpt+=1
-                            matchCreate(a,b,r)
+                            matchCreate(a,b,r,short)
                     else: # a+b-1>=n
                         if r==a+b-n:
-                            #cpt+=1
-                            matchCreate(a,b,r)
+                            matchCreate(a,b,r,short)
                 else: # b=n
                     if 2*a<=n:
                         if r==2*a-1:
-                            #cpt+=1
-                            matchCreate(a,b,r)
+                            matchCreate(a,b,r,short)
                     else: # 2a>n
                         if r==2*a-n:
-                            #cpt+=1
-                            matchCreate(a,b,r)
-    print(cpt)
-    print(getMatchList())
+                            matchCreate(a,b,r,short)
+    #print(cpt)
+    return matchlist
 
-def matchCreate(a,b,r):
+def matchCreate(a,b,r,short):
     global cpt
     if a!=b: # enlever les matchs contre soi-même
-        if shorten==True: # si shorten est True, on test le résultat de duplicateMatch
+        if short==True: # si short est True, on test le résultat de duplicateMatch
             if duplicateMatch(a,b)!=True:
                 cpt=cpt+1
                 matchlist.append((r,a,b))
-                print('Ronde {} : {} VS {}'.format(r,a,b))
+                #print('Ronde {} : {} VS {}'.format(r,a,b))
         else:       #sinon on ignore duplicateMatch
                 cpt=cpt+1
                 matchlist.append((r,a,b))
-                print('Ronde {} : {} VS {}'.format(r,a,b))
+                #print('Ronde {} : {} VS {}'.format(r,a,b))
 
 def getMatchList():
     return matchlist
@@ -62,5 +57,6 @@ def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist s
             return True
 
 if __name__ == '__main__':
+    
     import sys
-    sys.exit(main(sys.argv))
+    sys.exit(main(6,True))
