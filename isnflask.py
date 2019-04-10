@@ -33,13 +33,14 @@ def display():
     Players=[]
     for i in range(1,Nbr_player+1) :
         Players.append(request.form['pseudo{}'.format(i)])
-
+    Matchlist=tournament.getMatchList()
+    Nbr_matchs=len(Matchlist)
     #On crée les tables de la base de donnée
     #tournoi_DB.main()
     #On donne la liste des joueurs à la base de donnée
-    tournoi_DB.getid(Players)
+    #tournoi_DB.getid(Players)
     #On utilise le template accueil.html, avec les variables titre et lignes
-    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi)
+    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, nbr_matchs=Nbr_matchs, n=1)
 
 @app.route('/results/', methods=['POST'])
 def results():

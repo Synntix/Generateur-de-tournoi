@@ -20,18 +20,23 @@
     </header>
 
     <section  class="site-content">
-      {% for i in range(nbr_player) %}
-        <div id="matchs" class="match{{i+1}}"><b>Match {{i+1}} :</b>
-        </br>
-          <form method="post" action="{{ url_for('results') }}">
-            <input type="radio" name="match{{i+1}}" value={{i+1}} id="j1m{{i}}+1">
-            <label for="j1m{{i}}+1">{{players[i]}}</label>
+        {% set count = [1] %}
+        {% for i in range(nbr_matchs) %}
+          {% if count[0]==matchlist[i][0] %}
+            <h5>Round {{count[0]}}</h5>
+            {% if count.append(count.pop() + 1) %}{% endif %} {# increment count by 1 #}
+          {% endif %}
+          <div id="matchs" class="match{{i+1}}"><b>Match {{i+1}} :</b>
+          </br>
+            <form method="post" action="{{ url_for('results') }}">
+              <input type="radio" name="match{{i+1}}" value={{matchlist[i][1]}} id="j1m{{i}}+1">
+              <label for="j1m{{i}}+1">{{matchlist[i][1]}}</label>
 
-            <input type="radio" name="match{{i+1}}" value={{i+2}} id="j2m{{i}}+1">
-            <label for="j2m{{i}}+1">{{players[i+1]}}</label>
+              <input type="radio" name="match{{i+1}}" value={{matchlist[i][1]}} id="j2m{{i}}+1">
+              <label for="j2m{{i}}+1">{{matchlist[i][2]}}</label>
 
-        </div>
-      {% endfor %}
+            </div>
+            {% endfor %}
       </br></br>
       <!--Bouton d'envoi du formulaire-->
       <input value="Continuer" type="submit" />
