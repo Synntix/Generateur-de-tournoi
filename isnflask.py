@@ -17,7 +17,13 @@ def player_entry():
     global Type_tournoi
     Nbr_player=int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
-    print(tournament.main(Nbr_player,True))
+    Short=request.form['shortcheckbox']
+    if Short == "0":
+        Short=False
+    elif Short=="1":
+        Short=True
+
+    print(tournament.main(Nbr_player,Short))
     return render_template('page2.html.j2' , nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
 @app.route('/display/', methods=['POST'])
@@ -28,8 +34,10 @@ def display():
     for i in range(1,Nbr_player+1) :
         Players.append(request.form['pseudo{}'.format(i)])
 
-    tournoi_DB.main()
-    print(tournoi_DB.getid(Players))
+    #On crée les tables de la base de donnée
+    #tournoi_DB.main()
+    #On donne la liste des joueurs à la base de donnée
+    tournoi_DB.getid(Players)
     #On utilise le template accueil.html, avec les variables titre et lignes
     return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 

@@ -23,7 +23,7 @@
           <input type="radio" name="type_tournoi" value="Ligue" id="ligue" checked>
           <label for="ligue">Ligue</label><br/>
           <input type="radio" name="type_tournoi" value="Simple élimination" id="1elim">
-          <label for="1elim">Simple élimination</label><br/>
+          <label for="1elim">Simple élimination</label></br>
           <input type="radio" name="type_tournoi" value="Double élimination" id="2elim">
           <label for="2elim">Double élimination</label>
           <br/><br/>
@@ -31,8 +31,12 @@
           <!--Entrée du nombre de joueurs-->
           <h5>Nombre de joueurs:</h5>
           <input type="number" min="0" max="1024" value="8" step="1" id="nbr_player" name="nbr_player" />
-          <br/><br/>
-          <br/>
+          </br></br>
+          <!--Choix de la longueur du tournoi-->
+          <label for="checkshort">Tournoi allongé ? </label>
+          <input type="checkbox" name="shortcheckbox" id='checkshort' value=0>
+          <input id='testNameHidden' type='hidden' value=1 name='shortcheckbox'>
+        </br></br>
           <!--Bouton d'envoi du formulaire-->
           <input value="Continuer" type="submit" />
         </form>
