@@ -1,5 +1,8 @@
 <!doctype html>
 <html>
+
+
+
   <head>
     <meta charset="utf-8" />
     <title>Organisation de tournoi</title>
@@ -13,29 +16,35 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   </head>
 
+
+
   <body onload="brython(1)">
     <header class="site-header">
+      <!-- Bouton de retour à l'accueil -->
       <div><a id="bouton_retour" href="{{ url_for('accueil') }}"><h4>Retour à l'accueil</h4></a></div>
+      <!-- Grand titre -->
       <h1>{{ type_tournoi }} à {{ nbr_player }} joueurs</h1>
     </header>
 
+
+
     <section  class="site-content">
       <form method="post" action="{{ url_for('display') }}">
-        {% if nbr_player<=1024 %}        <!--Limitation à 1024 joueurs-->
+        {% if nbr_player<=128 %}        <!--Limitation à 128 joueurs-->
           {% for i in range(1,nbr_player+1) %}
             <label for=pseudo{{i}}>Pseudo du joueur {{ i }} : </label>
             <input type="text" name=pseudo{{i}} required minlength="0" maxlength="20" size="10"><br/>
-            {% endfor %}
-            {% else %}
-            <p>Veuillez sélectionner un nombre de joueurs inférieur à 1024</p>
-            {% endif %}
-            <br/>
-            <!--Bouton d'envoi du formulaire-->
-            <input value="Continuer" type="submit" /></br></br>
+          {% endfor %}
+          {% else %}
+            <p>Veuillez sélectionner un nombre de joueurs inférieur à 128</p>
+        {% endif %}<br/>
+        
+        <!--Bouton d'envoi du formulaire-->
+        <input value="Continuer" type="submit" /></br></br>
       </form>
     </section>
-    <footer>
 
-    </footer>
+
+
   </body>
 </html>
