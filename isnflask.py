@@ -24,15 +24,6 @@ def player_entry():
     Nbr_player=int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
 
-    Short=request.form['shortcheckbox']
-    if Short == "0":
-        Short=False
-    elif Short=="1":
-        Short=True
-
-    #On lance le programme qui crée les matchs
-    tournament.main(Nbr_player,Short)
-
     #On utilise le template page2.html
     return render_template('page2.html.j2' , nbr_player=Nbr_player, type_tournoi=Type_tournoi)
 
@@ -48,8 +39,16 @@ def display():
         #On ajoute le pseudo des joueurs à la liste "Players"
         Players.append(request.form['pseudo{}'.format(i)])
 
+    Short=request.form['shortcheckbox']
+    if Short == "0":
+        Short=False
+    elif Short=="1":
+        Short=True
+
     #On récupère la liste des matchs
-    Matchlist=tournament.getMatchList()
+    Matchlist=tournament.getMatchList(Nbr_player,Short)
+    print(Short)
+    print(Matchlist)
     Nbr_matchs=len(Matchlist)
 
     #On crée les tables de la base de donnée

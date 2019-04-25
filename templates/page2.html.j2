@@ -38,6 +38,12 @@
           {% else %}
             <p>Veuillez sélectionner un nombre de joueurs inférieur à 128</p>
         {% endif %}<br/>
+
+        <!--Choix de la longueur du tournoi-->
+        <label for="checkshort">Tournoi allongé ? </label>
+        <input type="checkbox" name="shortcheckbox" id='checkshort' value=0>
+        <input id='testNameHidden' type='hidden' value=1 name='shortcheckbox'>
+        </br></br>
         
         <!--Bouton d'envoi du formulaire-->
         <input value="Continuer" type="submit" /></br></br>
