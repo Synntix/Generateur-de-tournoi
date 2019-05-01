@@ -54,3 +54,11 @@ header div {
   text-align: center;
   color:orange;
 }
+
+#pts_draw {
+  margin-left: 47px;
+}
+
+#pts_lose {
+  margin-left: 3px;
+}

@@ -42,12 +42,14 @@ def display():
         #On ajoute le pseudo des joueurs à la liste "Players"
         Players.append(request.form['pseudo{}'.format(i)])
 
+    #On récupère le choix sur la longueur du tournoi et on en fait un booléen
     Short=request.form['shortcheckbox']
     if Short == "0":
-        Short=False
-    elif Short=="1":
         Short=True
+    elif Short=="1":
+        Short=False
 
+    #On récupère le choix sur les matchs de barrage et on en fait un booléen
     Barrages=request.form['match_barrages']
     if Barrages == "0":
         Barrages=True
@@ -64,15 +66,15 @@ def display():
     #On donne la liste des joueurs à la base de donnée
     tournoi_DB.createPlayers(Players)
 
+    #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
     Matchlist_pseudo=tournament.getMatchList(Nbr_player,Short)
-
     for i in range(len(Matchlist_pseudo)):
         Matchlist_pseudo[i]=list(Matchlist_pseudo[i])
     for i in Matchlist_pseudo:
         i[1]=tournoi_DB.getPseudo(i[1])
         i[2]=tournoi_DB.getPseudo(i[2])
     print(Matchlist_pseudo)
-
+    print(Matchlist)
     #On utilise le template display.html
     return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=Nbr_matchs)
 
@@ -83,7 +85,7 @@ def display():
 def results():
     results=[]
     for i in range(1,Nbr_player+1) :
-        #On récupère l'id des joueurs qui ont gagné
+        #On récupère l'id des joueurs qui ont gagné pour les mattre dans la liste results
         results.append(request.form['match{}'.format(i)])
 
     #On utilise le template results.html
