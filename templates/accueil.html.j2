@@ -18,6 +18,7 @@
     <section  class="site-content">
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
+
           <!--Sélction du type de tournoi-->
           <h5><b>Séléctionnez le type de tournoi :</b></h5>
           <input type="radio" name="type_tournoi" value="Ligue" id="ligue" checked>
@@ -28,10 +29,22 @@
           <label for="2elim">Double élimination</label>
           <br/><br/>
           <br/><br/>
+
           <!--Entrée du nombre de joueurs-->
           <h5>Nombre de joueurs:</h5>
           <input type="number" min="0" max="128" value="8" step="1" id="nbr_player" name="nbr_player" />
           </br></br>
+
+          <!--Entrée du nombre de points par évènement-->
+          <h5>Nombre de points par évènenent:</h5>
+          <label for="pts_win">Nombre de points par match gagné :</label>
+          <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
+          <label for="pts_win">Nombre de points par égalité :</label>
+          <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
+          <label for="pts_win">Nombre de points par match perdu :</label>
+          <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
+          </br></br>
+
           <!--Bouton d'envoi du formulaire-->
           <input value="Continuer" type="submit" />
         </form>

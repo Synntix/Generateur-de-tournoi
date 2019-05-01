@@ -23,6 +23,9 @@ def player_entry():
     global Type_tournoi
     Nbr_player=int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
+    Pts_win=int(request.form['pts_win'])
+    Pts_draw=int(request.form['pts_draw'])
+    Pts_lose=int(request.form['pts_lose'])
 
     #On utilise le template page2.html
     return render_template('page2.html.j2' , nbr_player=Nbr_player, type_tournoi=Type_tournoi)
@@ -45,6 +48,12 @@ def display():
     elif Short=="1":
         Short=True
 
+    Barrages=request.form['match_barrages']
+    if Barrages == "0":
+        Barrages=True
+    elif Barrages=="1":
+        Barrages=False
+    print(Barrages)
     #On récupère la liste des matchs
     Matchlist=tournament.getMatchList(Nbr_player,Short)
     print(Short)
