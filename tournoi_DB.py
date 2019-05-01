@@ -2,7 +2,7 @@ import sqlite3
 import isnflask
 import tournament
 
-def main():
+#def main():
 
 
     #openDB()
@@ -34,10 +34,10 @@ def main():
     #upVictoire(testVictoire)
 
 
-    closeDB()
+    #closeDB()
 
-# SCRUD
-# SEARCH
+ # SCRUD
+ # SEARCH
 
 
 def getPlayers():
@@ -49,13 +49,9 @@ def getPlayers():
 
 def getPseudo(pIds):
 
-    # tupleIds = ""
-    # for i in range(len(pIds)):
-    #     tupleIds += str(pIds[i]) + ","
+    pIds=(pIds,)
 
-    questionmarks = '?' * len(pIds)
-    formatted_query = 'SELECT pseudo FROM joueurs WHERE id in ({})'.format(','.join(questionmarks))
-    pseudos = curseur.execute(formatted_query, pIds).fetchall()
+    pseudos = curseur.execute('SELECT pseudo FROM joueurs WHERE id in (?)',pIds).fetchall()
 
     return pseudos
 
@@ -122,4 +118,4 @@ def creatematch(listmatch):
 if __name__ == '__main__':
     import sys
     sys.exit()
-main()
+#main()

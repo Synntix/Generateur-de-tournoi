@@ -45,11 +45,11 @@
             <form method="post" action="{{ url_for('results') }}">
               <!-- Bouton pour selectionner le joueurs 1 -->
               <input type="radio" name="match{{i+1}}" value={{matchlist[i][1]}} id="j1m{{i}}+1">
-              <label for="j1m{{i}}+1">{{matchlist[i][1]}}</label>
+              <label for="j1m{{i}}+1">{{matchlist_pseudo[i][1][0][0]}}</label>
 
               <!-- Bouton pour selectionner le joueurs 2 -->
               <input type="radio" name="match{{i+1}}" value={{matchlist[i][1]}} id="j2m{{i}}+1">
-              <label for="j2m{{i}}+1">{{matchlist[i][2]}}</label>
+              <label for="j2m{{i}}+1">{{matchlist_pseudo[i][2][0][0]}}</label>
           </div>
 
         {% endfor %}</br></br>

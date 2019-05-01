@@ -53,20 +53,28 @@ def display():
         Barrages=True
     elif Barrages=="1":
         Barrages=False
-    print(Barrages)
+
     #On récupère la liste des matchs
     Matchlist=tournament.getMatchList(Nbr_player,Short)
-    print(Short)
-    print(Matchlist)
     Nbr_matchs=len(Matchlist)
 
     #On crée les tables de la base de donnée
-    #tournoi_DB.main()
+    tournoi_DB.openDB()
+    tournoi_DB.createTables()
     #On donne la liste des joueurs à la base de donnée
-    #tournoi_DB.getid(Players)
+    tournoi_DB.createPlayers(Players)
+
+    Matchlist_pseudo=tournament.getMatchList(Nbr_player,Short)
+
+    for i in range(len(Matchlist_pseudo)):
+        Matchlist_pseudo[i]=list(Matchlist_pseudo[i])
+    for i in Matchlist_pseudo:
+        i[1]=tournoi_DB.getPseudo(i[1])
+        i[2]=tournoi_DB.getPseudo(i[2])
+    print(Matchlist_pseudo)
 
     #On utilise le template display.html
-    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, nbr_matchs=Nbr_matchs)
+    return render_template('display.html.j2' , players=Players ,nbr_player=Nbr_player, type_tournoi=Type_tournoi, matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=Nbr_matchs)
 
 
 
