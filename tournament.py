@@ -1,16 +1,23 @@
-#from  tournoi_DB import getWins,getDraws,getLosses
-#def main(n,short):
-#    return getMatchList(n,short)
+import tournoi_DB
+#from  tournoi_DB import main#getWins,getDraws,getLosses
 
-def getMatchList(n,short=True,Berger=False): # Fonction principale, retourne liste des matchs pour n joueurs
+
+def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne liste des matchs pour n joueurs
     global matchlist # Init liste des matchs sous forme de tuples (ronde,joueur1,joueur2), globale
     matchlist=[]
     if Berger==True: # choix méhode Berger ou ruban
-        return methodeBerger(n,short)
+        if extended==True:
+            return methodeBerger(n)+reverseMatchlist()
+        else:
+            return methodeBerger(n)
     else:
-        return methodeRuban(n,short)
+        if extended==True:
+            return methodeRuban(n)+reverseMatchlist()
+        else:
+            return methodeRuban(n)
 
-def methodeBerger(n,short): # Méthode utilisant règles de la table de Berger
+
+def methodeBerger(n): # Méthode utilisant règles de la table de Berger
     #print('berger')
     for r in range(1,n): #toutes les rondes de 1 à n-1
         for a in range(1,n+1): #tous joueurs a de 1 à n
@@ -18,24 +25,24 @@ def methodeBerger(n,short): # Méthode utilisant règles de la table de Berger
                 if b!=n and a!=n:
                     if a+b-1<n:
                         if r==a+b-1:
-                            matchCreate(a,b,r,short)
-                            break
+                            matchCreate(a,b,r)
+                            #break
                     else: # a+b-1>=n
                         if r==a+b-n:
-                            matchCreate(a,b,r,short)
-                            break
+                            matchCreate(a,b,r)
+                            #break
                 else:
                     if 2*a<=n:
                         if r==2*a-1:
-                            matchCreate(a,b,r,short)
-                            break
+                            matchCreate(a,b,r)
+                            #break
                     else: # 2a>n
                         if r==2*a-n:
-                            matchCreate(a,b,r,short)
-                            break
+                            matchCreate(a,b,r)
+                            #break
     return matchlist
 
-def methodeRuban(n,short): # Méthode du ruban, plus rapide
+def methodeRuban(n): # Méthode du ruban, plus rapide
     #print('ruban')
     if n%2!=0:
         return [] # Sécurité: vérifier si nombre joueurs est bien pair
@@ -52,15 +59,12 @@ def methodeRuban(n,short): # Méthode du ruban, plus rapide
     return matchlist
 
 
-def matchCreate(a,b,r,short=False): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
+def matchCreate(a,b,r): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
     if a!=b: # enlever les matchs contre soi-même
-        if short==True: # si short est True, on test le résultat de duplicateMatch
-            if duplicateMatch(a,b)!=True:
-                matchlist.append((r,a,b))
-                #print('Ronde {} : {} VS {}'.format(r,a,b))
-        else:       #sinon on ignore duplicateMatch
-                matchlist.append((r,a,b))
-                #print('Ronde {} : {} VS {}'.format(r,a,b))
+        if duplicateMatch(a,b)!=True:
+            matchlist.append((r,a,b))
+            #print('Ronde {} : {} VS {}'.format(r,a,b))
+
 
 def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist sert d'historique
     for i in matchlist:
@@ -69,29 +73,36 @@ def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist s
 
 ############### [TEMPORAIRE] Fonctions simulant les résultats récupérés par tournoi_DB. COMMENTER CECI et DECOMMENTER LA LIGNE 1 une fois les vraies fonctions terminées
 def getWins(player):
-    wins=[[2],[],[1,2,6],[1,2,3,5,6],[1,2,3],[1,2,5]]
+    wins=[1,0,3,5,3,3]
+    #wins=[[2],[],[1,2,6],[1,2,3,5,6],[1,2,3],[1,2,5]]
     return wins[player-1]
 
 def getDraws(player):
-    draws=[[],[],[],[],[],[]]
+    draws=[0,0,0,0,0,0]
     return draws[player-1]
 
 def getLosses(player):
-    losses=[[3,4,5,6],[1,3,4,5,6],[4,5],[],[4,6],[3,4]]
+    losses=[4,5,2,0,2,2]
     return losses[player-1]
 ########################################################################################################################################################################
-def useSecond(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
+def reverseMatchlist(): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
+    invlist=[(i[0],i[2],i[1]) for i in matchlist]
+    return invlist
+
+def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
 
-def classement(n,kw=1,kd=0,kl=0):
-    classmt=[]
+def getClassement(n,kw=1,kd=0,kl=0,barr=False):
+    classement=[]
     for pl in range(1,n+1):
-        classmt.append((pl,kw*len(getWins(pl))+kd*len(getDraws(pl))+kl*len(getLosses(pl))))
-    classmt.sort(reverse=True,key=useSecond)
-    return classmt
+        classement.append((pl,kw*getWins(pl)+kd*len(getDraws(pl))+kl*len(getLosses(pl))))
+    classement.sort(reverse=True,key=deuxiemeTerme)
+    return classement
 
+def getSonnBerg(player):
+    print()
 
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,True,False))
+    sys.exit(getMatchList(6,False,False))
     #sys.exit(classement(6))
