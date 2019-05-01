@@ -7,12 +7,12 @@ def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne
     matchlist=[]
     if Berger==True: # choix méhode Berger ou ruban
         if extended==True:
-            return methodeBerger(n)+reverseMatchlist()
+            return methodeBerger(n)+reverseMatchlist(n)
         else:
             return methodeBerger(n)
     else:
         if extended==True:
-            return methodeRuban(n)+reverseMatchlist()
+            return methodeRuban(n)+reverseMatchlist(n)
         else:
             return methodeRuban(n)
 
@@ -85,8 +85,8 @@ def getLosses(player):
     losses=[4,5,2,0,2,2]
     return losses[player-1]
 ########################################################################################################################################################################
-def reverseMatchlist(): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
-    invlist=[(i[0],i[2],i[1]) for i in matchlist]
+def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
+    invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
 
 def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
@@ -104,5 +104,5 @@ def getSonnBerg(player):
 
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,False,False))
+    sys.exit(getMatchList(6,True,False))
     #sys.exit(classement(6))
