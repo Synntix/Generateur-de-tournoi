@@ -6,7 +6,7 @@
 
 ---------------
 ## Lancement :
-- Sur **Windows** : Un double clic sur *web_interface.py* devrait suffire.
+- Sur **Windows** : Clic droit sur *web_interface.py* > Ouvrir avec > Python
 - Sur n'importe quelle distribution **Linux** : `python3 web_interface.py`.
 
 ---------------
