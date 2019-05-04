@@ -1,7 +1,8 @@
 html, body {
     padding: 0;
     height: 100%;
-    margin: 0;}
+    margin: 0;
+}
 
 body {
     display:table;
@@ -11,9 +12,11 @@ body {
     font-family: 'Raleway', sans-serif;
     margin-left: auto;
     margin-right: auto;
-    }
+}
 
-header,section,footer {display:table-row;}
+header,section,footer {
+  display:table-row;
+}
 
 section {
   height:75%;
@@ -83,4 +86,9 @@ header div {
   font-size: 25px;
   color: #614E1A;
   margin-bottom: 10px;
+}
+
+overline {
+  color: gray;
+  text-decoration: line-through;
 }

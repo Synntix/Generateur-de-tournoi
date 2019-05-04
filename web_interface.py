@@ -1,5 +1,12 @@
 ﻿#! python3
 # -*- coding: utf-8 -*-
+#title           :web_interface.py
+#description     :Ce programme lance le serveur web du projet
+#author          :Synntix
+#date            :04/05/2019
+#version         :0.1
+#python_version  :3.7
+#=======================================================================
 from flask import Flask, render_template, url_for, request
 import sqlite3
 import tournament
