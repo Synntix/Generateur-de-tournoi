@@ -66,3 +66,21 @@ header div {
 #checkshort {
   margin-left: 13px;
 }
+
+.finalplace1 {
+  font-size: 35px;
+  color: red;
+  margin-bottom: 15px;
+}
+
+.finalplace2 {
+  font-size: 30px;
+  color: orange;
+  margin-bottom: 10px;
+}
+
+.finalplace3 {
+  font-size: 25px;
+  color: #614E1A;
+  margin-bottom: 10px;
+}
