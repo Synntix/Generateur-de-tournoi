@@ -101,7 +101,7 @@ def display():
 def results():
     results=[]
     for i in range(1,Nbr_matchs+1) :
-        #On récupère l'id des joueurs qui ont gagné pour les mattre dans la liste results
+        #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
         results.append(request.form['match{}'.format(i)])
     if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))

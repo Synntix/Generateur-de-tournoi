@@ -1,5 +1,5 @@
 import sqlite3
-import isnflask
+import web_interface
 import tournament
 
 #def main():
