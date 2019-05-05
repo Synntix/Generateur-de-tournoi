@@ -121,7 +121,7 @@ def results():
         win=[]
         draw=[]
         lose=[]
-
+    #On met l'id d'un joueur dans win quand il gagne, dans draw quand il fait une égalité et dans lose quand il perd
     for i in range(Nbr_matchs):
         if results[i]==Matchlist[i][1]:
             win.append(Matchlist[i][1])
@@ -137,6 +137,7 @@ def results():
         print("draw : {}".format(draw))
         print("lose : {}".format(lose))
 
+    #On compte les points de chaque joueurs. Les points sont associés au joueur avec un dictionnaire
     Points = {}
     for i in range(1,len(Players)+1):
         Points[i]=win.count(i)*Pts_win
@@ -145,9 +146,11 @@ def results():
     if debug==True:
         print(Points)
 
+    #On calcule le nombre de points maximum et minimum
     Pts_max=Matchlist[-1][0]*Pts_win
     Pts_min=Matchlist[-1][0]*Pts_lose
 
+    #On trie par ordre décroissant les joueurs en fonction de leur nombre de points dans Classement
     Classement=[]
     for i in range (Pts_max,Pts_min,-1):
         for id in range (1,len(Players)+1):
