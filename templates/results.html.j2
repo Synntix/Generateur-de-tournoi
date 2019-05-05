@@ -30,8 +30,8 @@
 
     <section  class="site-content">
       <!-- Affichage du classement -->
-      {% for i in range(1,nbr_player+1) %}
-        <p class="finalplace{{i}}">{{i}}. Classement à venir...</p>
+      {% for i in range(nbr_player) %}
+        <p class="finalplace{{i+1}}">{{i+1}}. {{classement[i]}} avec {{points[classement[i]]}} </p>
       {% endfor %}
     </section>
 
