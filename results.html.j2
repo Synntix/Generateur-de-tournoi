@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Organisation de tournoi</title>
+    <!-- On importe notre fichier css -->
+    <link href="{{ url_for('static', filename='mon_style.css') }}" rel="stylesheet" type="text/css" />
+    <!-- On importe la librairie Brython -->
+    <script type="text/javascript" src="{{url_for('static', filename='brython.js') }}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='brython_stdlib.js') }}"></script>
+    <!-- On importe notre favicon et la police -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  </head>
+
+
+
+  <body onload="brython(1)">
+    <header class="site-header">
+      <!-- Bouton de retour à l'accueil-->
+      <div><a id="bouton_retour" href="{{ url_for('accueil') }}"><h4>Retour à l'accueil</h4></a></div>
+      <!-- Type du tournoi et nombre de participants-->
+      <h1>{{ type_tournoi }} à {{ nbr_player }} joueurs</h1>
+    </header>
+
+
+
+    <section  class="site-content">
+      <!-- Affichage du classement -->
+      {% for i in range(nbr_player) %}
+        <p class="finalplace{{i+1}}">{{i+1}}. {{classement[i][0][0]}} avec {{points[classement[i]]}} points.</p>
+      {% endfor %}
+    </section>
+
+
+
+  </body>
+</html>
