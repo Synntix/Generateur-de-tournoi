@@ -159,12 +159,12 @@ def results():
     if debug==True:
         print(Classement)
 
-    #Classement_pseudo=[]
-    #for i in range(len(Classement)):
-    #    Classement[i]=tournoi_DB.getPseudo(Classement[i])
+    Classement_pseudo=[]
+    for i in range(len(Classement)):
+        Classement_pseudo.append(tournoi_DB.getPseudo(Classement[i]))
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, points=Points, classement=Classement)
+    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, points=Points, classement_pseudo=Classement_pseudo, classement=Classement)
 
 
 
