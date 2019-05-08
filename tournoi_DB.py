@@ -58,7 +58,7 @@ def getPseudo(pIds):
 # CREATE
 def openDB():
     global connexion
-    connexion = sqlite3.connect("D:\\ISN\\Projet_ISN-master\\tournoi.sqlite3", check_same_thread=False)
+    connexion = sqlite3.connect("tournoi.sqlite3")
 
 def closeDB():
     connexion.close()
