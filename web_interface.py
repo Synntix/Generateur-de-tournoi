@@ -1,4 +1,4 @@
-﻿#! python3
+#! python3
 # -*- coding: utf-8 -*-
 #title           :web_interface.py
 #description     :Ce programme lance le serveur web du projet
@@ -53,10 +53,9 @@ def player_entry():
 @app.route('/display/', methods=['POST'])
 def display():
     #On crée la liste 'Players' et on ajoute tous les pseudo des participants
-    nb=Nbr_player+1
     global Players
     Players=[]
-    for i in range(1,nb) :
+    for i in range(1,Nbr_player+1) :
         #On ajoute le pseudo des joueurs à la liste "Players"
         Players.append(request.form['pseudo{}'.format(i)])
     if debug==True:
@@ -160,12 +159,12 @@ def results():
     if debug==True:
         print(Classement)
 
-    # Classement_pseudo=[]
-    for i in range(len(Classement)):
+    Classement_pseudo=[]
+    for i in range(1,len(Classement)+1):
         Classement[i]=tournoi_DB.getPseudo(Classement[i])
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, points=Points, classement=Classement)
+    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, points=Points, classement_pseudo=Classement_pseudo)
 
 
 
