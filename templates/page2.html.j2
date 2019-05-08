@@ -40,14 +40,14 @@
         {% endif %}<br/>
 
         <!--Choix de la longueur du tournoi-->
-        <label for="checkshort">Tournoi allongé ? </label>
         <input type="checkbox" name="shortcheckbox" id='checkshort' value=0>
+        <label for="checkshort">Tournoi allongé ? </label>
         <input id='testNameHidden' type='hidden' value=1 name='shortcheckbox'>
         </br>
 
         <!--Choix des matchs barages ou non-->
-        <label for="barrages_true">Matchs barrages ? </label>
-        <input type="checkbox" name="match_barrages" id='barrages_true' value=0>
+        <input type="checkbox" name="match_barrages" id='barrages_true' value=0 disabled>
+        <label for="barrages_true"><overline>Matchs barrages ?</overline>    (Prochainement ...)</label>
         <input id='barrages_Hidden' type='hidden' value=1 name='match_barrages'>
         </br></br>
 

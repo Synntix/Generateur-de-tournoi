@@ -66,10 +66,6 @@ header div {
   margin-left: 3px;
 }
 
-#checkshort {
-  margin-left: 13px;
-}
-
 .finalplace1 {
   font-size: 35px;
   color: red;
@@ -91,4 +87,5 @@ header div {
 overline {
   color: gray;
   text-decoration: line-through;
+  margin-right: 5px;
 }
