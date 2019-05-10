@@ -170,4 +170,4 @@ def results():
 
 
 if __name__ == '__main__' :
-    app.run(debug=True, port=int("80"))
+    app.run(debug=True)
