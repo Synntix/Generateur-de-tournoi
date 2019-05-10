@@ -1,1 +1,1 @@
-web: gunicorn web_interface.py
+web: gunicorn app:web_interface
