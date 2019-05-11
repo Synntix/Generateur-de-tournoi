@@ -141,8 +141,8 @@ def results():
     Points = {}
     for i in range(1,len(Players)+1):
         Points[i]=win.count(i)*Pts_win
-        Points[i]=draw.count(i)*Pts_draw
-        Points[i]=lose.count(i)*Pts_lose
+        Points[i]+=draw.count(i)*Pts_draw
+        Points[i]+=lose.count(i)*Pts_lose
     if debug==True:
         print(Points)
 
