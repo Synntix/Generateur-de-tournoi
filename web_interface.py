@@ -118,19 +118,17 @@ def results():
     if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
-    Classement=tournament.getClassement(Nbr_player,Matchlist,results,Pts_win,Pts_draw,Pts_lose)
-    if debug==True:
-        print("Classement : {}".format(Classement))
-
+    #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
     Classement_pseudo=tournament.getClassement(Nbr_player,Matchlist,results,Pts_win,Pts_draw,Pts_lose)
     for i in range(len(Classement_pseudo)):
         Classement_pseudo[i]=list(Classement_pseudo[i])
     for i in range(len(Classement_pseudo)):
-        Classement_pseudo[i][0]=(tournoi_DB.getPseudo(Classement[i][0]))
+        Classement_pseudo[i][0]=(tournoi_DB.getPseudo(Classement_pseudo[i][0]))
     if debug==True:
         print("Classement_pseudo : {}".format(Classement_pseudo))
+
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, classement_pseudo=Classement_pseudo, classement=Classement)
+    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, classement_pseudo=Classement_pseudo)
 
 
 
