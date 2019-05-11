@@ -92,10 +92,24 @@ def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-matc
 def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
 
-def getClassement(n,kw=1,kd=0,kl=0,barr=False):
+def getClassement(n,matchlist,win,kw=1,kd=0,kl=0,barr=False):
     classement=[]
+    nbMatchs=len(matchlist)
+    # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
+    draw=[]
+    lose=[]
+    #On met l'id d'un joueur dans draw quand il fait une égalité et dans lose quand il perd
+    for i in range(0,nbMatchs):
+        if win[i]==matchlist[i][1]: #Si le gagnant du match i est le joueur 1 du match i, on ajoute le joueur 2 à lose
+            lose.append(matchlist[i][2])
+        elif win[i]==matchlist[i][2]: # sinon si le gagnant est le joueur 2, on ajoute le joueur 1 à lose
+            lose.append(matchlist[i][1])
+        elif win[i]==0: # sinon si le gagnant est 0 (égalité) on ajoute les deux joueurs à draw
+            draw.append(matchlist[i][1])
+            draw.append(matchlist[i][2])
+
     for pl in range(1,n+1):
-        classement.append((pl,kw*getWins(pl)+kd*len(getDraws(pl))+kl*len(getLosses(pl))))
+        classement.append((pl,kw*win.count(pl)+kd*draw.count(pl)+kl*lose.count(pl)))
     classement.sort(reverse=True,key=deuxiemeTerme)
     return classement
 
@@ -104,5 +118,5 @@ def getSonnBerg(player):
 
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,True,False))
-    #sys.exit(classement(6))
+    sys.exit(getMatchList(6,False,False))
+    #sys.exit(getClassement(6,getMatchList(6),[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5]))

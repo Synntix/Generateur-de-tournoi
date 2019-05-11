@@ -118,9 +118,9 @@ def results():
     if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
-        win=[]
-        draw=[]
-        lose=[]
+    win=[]
+    draw=[]
+    lose=[]
     #On met l'id d'un joueur dans win quand il gagne, dans draw quand il fait une égalité et dans lose quand il perd
     for i in range(Nbr_matchs):
         if results[i]==Matchlist[i][1]:
@@ -141,8 +141,8 @@ def results():
     Points = {}
     for i in range(1,len(Players)+1):
         Points[i]=win.count(i)*Pts_win
-        Points[i]+=draw.count(i)*Pts_draw
-        Points[i]+=lose.count(i)*Pts_lose
+        Points[i]=draw.count(i)*Pts_draw
+        Points[i]=lose.count(i)*Pts_lose
     if debug==True:
         print(Points)
 
