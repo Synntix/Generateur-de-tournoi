@@ -31,7 +31,7 @@
     <section  class="site-content">
       <!-- Affichage du classement -->
       {% for i in range(nbr_player) %}
-        <p class="finalplace{{i+1}}">{{i+1}}. {{classement_pseudo[i][0][0]}} avec {{points[classement[i]]}} points.</p>
+        <p class="finalplace{{i+1}}">{{i+1}}. {{classement_pseudo[i][0][0][0]}} avec {{classement_pseudo[i][1]}} points.</p>
       {% endfor %}
     </section>
 

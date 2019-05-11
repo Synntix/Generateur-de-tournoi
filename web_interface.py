@@ -16,9 +16,9 @@ debug=True
 
 
 
-@app.route('/')  #C'est un décorateur, on donne la route ici "/"  l'adresse sera donc localhost:5000/
+@app.route('/')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
 def accueil():
-    #On utilise le template accueil.html, avec les variables titre et lignes
+    #On utilise le template accueil.html
     return render_template("accueil.html.j2")
 
 
@@ -118,53 +118,17 @@ def results():
     if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
-    win=[]
-    draw=[]
-    lose=[]
-    #On met l'id d'un joueur dans win quand il gagne, dans draw quand il fait une égalité et dans lose quand il perd
-    for i in range(Nbr_matchs):
-        if results[i]==Matchlist[i][1]:
-            win.append(Matchlist[i][1])
-            lose.append(Matchlist[i][2])
-        elif results[i]==Matchlist[i][2]:
-            win.append(Matchlist[i][2])
-            lose.append(Matchlist[i][1])
-        elif results[i]==0:
-            draw.append(Matchlist[i][1])
-            draw.append(Matchlist[i][2])
+    #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
+    Classement_pseudo=tournament.getClassement(Nbr_player,Matchlist,results,Pts_win,Pts_draw,Pts_lose)
+    for i in range(len(Classement_pseudo)):
+        Classement_pseudo[i]=list(Classement_pseudo[i])
+    for i in range(len(Classement_pseudo)):
+        Classement_pseudo[i][0]=(tournoi_DB.getPseudo(Classement_pseudo[i][0]))
     if debug==True:
-        print("win : {}".format(win))
-        print("draw : {}".format(draw))
-        print("lose : {}".format(lose))
-
-    #On compte les points de chaque joueurs. Les points sont associés au joueur avec un dictionnaire
-    Points = {}
-    for i in range(1,len(Players)+1):
-        Points[i]=win.count(i)*Pts_win
-        Points[i]+=draw.count(i)*Pts_draw
-        Points[i]+=lose.count(i)*Pts_lose
-    if debug==True:
-        print(Points)
-
-    #On calcule le nombre de points maximum et minimum
-    Pts_max=Matchlist[-1][0]*Pts_win
-    Pts_min=Matchlist[-1][0]*Pts_lose
-
-    #On trie par ordre décroissant les joueurs en fonction de leur nombre de points dans Classement
-    Classement=[]
-    for i in range (Pts_max,Pts_min,-1):
-        for id in range (1,len(Players)+1):
-            if Points[id]==i:
-                Classement.append(id)
-    if debug==True:
-        print(Classement)
-
-    Classement_pseudo=[]
-    for i in range(len(Classement)):
-        Classement_pseudo.append(tournoi_DB.getPseudo(Classement[i]))
+        print("Classement_pseudo : {}".format(Classement_pseudo))
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, points=Points, classement_pseudo=Classement_pseudo, classement=Classement)
+    return render_template('results.html.j2', nbr_player=Nbr_player, type_tournoi=Type_tournoi, classement_pseudo=Classement_pseudo)
 
 
 
