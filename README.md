@@ -1,4 +1,4 @@
-> Organisation de tournoi
+> Générateur de tournoi
 
 ## Prérequis :
     - Python v3.X.X
