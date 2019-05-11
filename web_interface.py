@@ -16,9 +16,9 @@ debug=True
 
 
 
-@app.route('/')  #C'est un décorateur, on donne la route ici "/"  l'adresse sera donc localhost:5000/
+@app.route('/')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
 def accueil():
-    #On utilise le template accueil.html, avec les variables titre et lignes
+    #On utilise le template accueil.html
     return render_template("accueil.html.j2")
 
 
