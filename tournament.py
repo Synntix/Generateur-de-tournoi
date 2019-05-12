@@ -1,17 +1,17 @@
 import tournoi_DB
-#from  tournoi_DB import main#getWins,getDraws,getLosses
 
-
-def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne liste des matchs pour n joueurs
-    global matchlist # Init liste des matchs sous forme de tuples (ronde,joueur1,joueur2), globale
+# Fonction principale, retourne liste des matchs pour n joueurs
+def getMatchList(n,extended=False,Berger=False):
+    # Init liste matchs sous forme de tuples (ronde,joueur1,joueur2), *globale*
+    global matchlist
     matchlist=[]
     if Berger==True: # choix méhode Berger ou ruban
-        if extended==True:
+        if extended==True: # Ajout liste inversée si besoin
             return methodeBerger(n)+reverseMatchlist(n)
         else:
             return methodeBerger(n)
     else:
-        if extended==True:
+        if extended==True: # Ajout liste inversée si besoin
             return methodeRuban(n)+reverseMatchlist(n)
         else:
             return methodeRuban(n)
@@ -50,62 +50,74 @@ def methodeRuban(n): # Méthode du ruban, plus rapide
     if n%2!=0:
         return [] # Sécurité: vérifier si nombre joueurs est bien pair
     Rb=[i for i in range(2,n+1)] # générer ruban de joueurs sauf le 1
+    # initialiser les pointeurs
     h=0
-    b=int((n/2)-1) # initialiser les pointeurs
+    b=int((n/2)-1)
 
     for r in range(1,n):
         matchCreate(1,Rb[int(b+n/2-1)%(n-1)],r,False) # Cas du 1
-        for i in range(0,int(n/2-2)+1):
+        for i in range(0,int(n/2-2)+1): # Cas des autres matchs
             matchCreate(Rb[(h+i)%(n-1)],Rb[int(b+n/2-2-i)%(n-1)],r,False)
+        # Décalage des pointeurs
         h=(h-1)%(n-1)
         b=(b-1)%(n-1)
     return matchlist
 
-
-def matchCreate(a,b,r,verif=True): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
-    if not verif:
+# Fonction ajoutant à matchlist un match entre a et b à la ronde r
+# sous forme (r,a,b)
+def matchCreate(a,b,r,verif=True):
+    if not verif: #possibilité d'éviter la vérification (pour ruban)
         matchlist.append((r,a,b))
-    elif a!=b and duplicateMatch(a,b)!=True: # enlever les matchs contre soi-même et les doublons
+    elif a!=b and duplicateMatch(a,b)!=True:
+    # enlever les matchs contre soi-même et les doublons
         matchlist.append((r,a,b))
         #print('Ronde {} : {} VS {}'.format(r,a,b))
 
-
-def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist sert d'historique
+#fonction vérifiant les matchs doublons, matchlist sert d'historique
+def duplicateMatch(p1,p2):
     for i in matchlist:
         if i[2]==p1 and i[1]==p2:
             return True
 
-def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
+# Fonction inversant les 2 joueurs de chaque tuple-match de matchlist,
+# pour le tournoi étendu
+def reverseMatchlist(n):
     invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
 
-def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
+# Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
+def deuxiemeTerme(untuple):
     return untuple[1]
 
+# Fonction de calcul des scores et du classement
 def getClassement(n,matchlist,win,kw=1,kd=0,kl=0):
     classement=[]
     nbMatchs=len(matchlist)
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
     draw=[]
     lose=[]
-    #On met l'id d'un joueur dans draw quand il fait une égalité et dans lose quand il perd
+    # On met l'id d'un joueur dans draw quand il fait une égalité
+    # et dans lose quand il perd
     for i in range(0,nbMatchs):
-        if win[i]==matchlist[i][1]: #Si le gagnant du match i est le joueur 1 du match i, on ajoute le joueur 2 à lose
+        # Si le gagnant du match i est le joueur 1 du match i,
+        if win[i]==matchlist[i][1]:
+            # on ajoute le joueur 2 à lose
             lose.append(matchlist[i][2])
-        elif win[i]==matchlist[i][2]: # sinon si le gagnant est le joueur 2, on ajoute le joueur 1 à lose
+        elif win[i]==matchlist[i][2]: # sinon si le gagnant est le joueur 2,
+            # on ajoute le joueur 1 à lose
             lose.append(matchlist[i][1])
-        elif win[i]==0: # sinon si le gagnant est 0 (égalité) on ajoute les deux joueurs à draw
+        elif win[i]==0: # sinon si le gagnant est 0 (égalité)
+            # on ajoute les deux joueurs à draw
             draw.append(matchlist[i][1])
             draw.append(matchlist[i][2])
 
-    for pl in range(1,n+1):
+    for pl in range(1,n+1): #Calcul du score pour chaque joueur
         classement.append((pl,kw*win.count(pl)+kd*draw.count(pl)+kl*lose.count(pl)))
+    #Tri inversé en prenant le 2e terme (score)
     classement.sort(reverse=True,key=deuxiemeTerme)
     return classement
 
-def getSonnBerg(player):
-    print()
-
+# Exécute getMatchList seulement si le programme est lancé seul (non importé)
 if __name__ == '__main__':
     import sys
     sys.exit(getMatchList(6,False,True))
