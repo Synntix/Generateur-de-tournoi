@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   </head>
 
+
+
   <body onload="brython(1)">
     <header  class="site-header"><h1>Accueil</h1></header>  <!-- On affiche le titre -->
     <section  class="site-content">
@@ -36,7 +38,7 @@
           </br></br>
 
           <!--Entrée du nombre de points par évènement-->
-          <h5>Nombre de points par évènenent:</h5>
+          <h5>Nombre de points par évènement:</h5>
           <label for="pts_win">Nombre de points par match gagné :</label>
           <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
           <label for="pts_win">Nombre de points par égalité :</label>
@@ -50,8 +52,14 @@
         </form>
       </div>
     </section>
-    <footer>
 
+
+
+    <footer>
+      <a class="link" href="{{ url_for('donnees') }}">Informations sur les données collectées</a>
     </footer>
+
+
+
   </body>
 </html>

@@ -3,8 +3,7 @@
 #title           :web_interface.py
 #description     :Ce programme lance le serveur web du projet
 #author          :Synntix
-#date            :04/05/2019
-#version         :0.1
+#date            :12/05/2019
 #python_version  :3.7
 #=======================================================================
 from flask import Flask, render_template, url_for, request
@@ -16,10 +15,19 @@ debug=True
 
 
 
+
 @app.route('/')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
 def accueil():
     #On utilise le template accueil.html
     return render_template("accueil.html.j2")
+
+
+
+
+@app.route('/donnees')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
+def donnees():
+    #On utilise le template donnees.html
+    return render_template("donnees.html")
 
 
 
@@ -31,6 +39,7 @@ def player_entry():
     global Pts_win
     global Pts_draw
     global Pts_lose
+    #On récupère les réponses des formulaires de la page d'accueil
     Nbr_player=int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
     Pts_win=int(request.form['pts_win'])
