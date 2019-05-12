@@ -71,20 +71,6 @@ def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist s
         if i[2]==p1 and i[1]==p2:
             return True
 
-############### [TEMPORAIRE] Fonctions simulant les résultats récupérés par tournoi_DB. COMMENTER CECI et DECOMMENTER LA LIGNE 1 une fois les vraies fonctions terminées
-def getWins(player):
-    wins=[1,0,3,5,3,3]
-    #wins=[[2],[],[1,2,6],[1,2,3,5,6],[1,2,3],[1,2,5]]
-    return wins[player-1]
-
-def getDraws(player):
-    draws=[0,0,0,0,0,0]
-    return draws[player-1]
-
-def getLosses(player):
-    losses=[4,5,2,0,2,2]
-    return losses[player-1]
-########################################################################################################################################################################
 def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
     invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
@@ -92,7 +78,7 @@ def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-matc
 def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
 
-def getClassement(n,matchlist,win,kw=1,kd=0,kl=0,barr=False):
+def getClassement(n,matchlist,win,kw=1,kd=0,kl=0):
     classement=[]
     nbMatchs=len(matchlist)
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)

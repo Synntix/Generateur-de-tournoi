@@ -3,7 +3,7 @@
 ## Prérequis :
     - Python v3.X.X
     - Module Flask
-
+    - Module sqlite3
 ---------------
 ## Lancement :
 - Sur **Windows** : Clic droit sur *web_interface.py* > Ouvrir avec > Python
