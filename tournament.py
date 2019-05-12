@@ -19,6 +19,9 @@ def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne
 
 def methodeBerger(n): # Méthode utilisant règles de la table de Berger
     #print('berger')
+    if n%2!=0:
+        return [] # Sécurité: vérifier si nombre joueurs est bien pair
+
     for r in range(1,n): #toutes les rondes de 1 à n-1
         for a in range(1,n+1): #tous joueurs a de 1 à n
             for b in range(1,n+1): #tous joueurs b de 1 à n
@@ -51,19 +54,20 @@ def methodeRuban(n): # Méthode du ruban, plus rapide
     b=int((n/2)-1) # initialiser les pointeurs
 
     for r in range(1,n):
-        matchCreate(1,Rb[int(b+n/2-1)%(n-1)],r) # Cas du 1
+        matchCreate(1,Rb[int(b+n/2-1)%(n-1)],r,False) # Cas du 1
         for i in range(0,int(n/2-2)+1):
-            matchCreate(Rb[(h+i)%(n-1)],Rb[int(b+n/2-2-i)%(n-1)],r)
+            matchCreate(Rb[(h+i)%(n-1)],Rb[int(b+n/2-2-i)%(n-1)],r,False)
         h=(h-1)%(n-1)
         b=(b-1)%(n-1)
     return matchlist
 
 
-def matchCreate(a,b,r): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
-    if a!=b: # enlever les matchs contre soi-même
-        if duplicateMatch(a,b)!=True:
-            matchlist.append((r,a,b))
-            #print('Ronde {} : {} VS {}'.format(r,a,b))
+def matchCreate(a,b,r,verif=True): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
+    if not verif:
+        matchlist.append((r,a,b))
+    elif a!=b and duplicateMatch(a,b)!=True: # enlever les matchs contre soi-même et les doublons
+        matchlist.append((r,a,b))
+        #print('Ronde {} : {} VS {}'.format(r,a,b))
 
 
 def duplicateMatch(p1,p2): #fonction vérifiant les matchs doublons, matchlist sert d'historique
@@ -104,5 +108,5 @@ def getSonnBerg(player):
 
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,False,False))
+    sys.exit(getMatchList(6,False,True))
     #sys.exit(getClassement(6,getMatchList(6),[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5]))
