@@ -34,23 +34,22 @@ def donnees():
 
 @app.route('/player_entry/', methods=['POST'])
 def player_entry():
-    global Type_tournoi
     #On récupère les réponses des formulaires de la page d'accueil
     session['Nbr_player'] = int(request.form['nbr_player'])
-    Type_tournoi=request.form['type_tournoi']
+    session['Type_tournoi']=request.form['type_tournoi']
     session['Pts_win']=int(request.form['pts_win'])
     session['Pts_draw']=int(request.form['pts_draw'])
     session['Pts_lose']=int(request.form['pts_lose'])
 
     if debug==True:
         print("Nombre de joueurs : {}".format(session['Nbr_player']))
-        print("Type de tournoi : {}".format(Type_tournoi))
+        print("Type de tournoi : {}".format(session['Type_tournoi']))
         print("Nombre de points par match gagné : {}".format(session['Pts_win']))
         print("Nombre de points par égalité : {}".format(session['Pts_draw']))
         print("Nombre de points par match perdu : {}".format(session['Pts_lose']))
 
     #On utilise le template page2.html
-    return render_template('page2.html.j2' , nbr_player=session['Nbr_player'], type_tournoi=Type_tournoi)
+    return render_template('page2.html.j2' , nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'])
 
 
 
@@ -108,7 +107,7 @@ def display():
         print("Liste des matchs par pseudo : \n{}".format(Matchlist_pseudo))
 
     #On utilise le template display.html
-    return render_template('display.html.j2' , players=Players ,nbr_player=session['Nbr_player'], type_tournoi=Type_tournoi, matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=session['Nbr_matchs'])
+    return render_template('display.html.j2' , players=Players ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=session['Nbr_matchs'])
 
 
 
@@ -132,7 +131,7 @@ def results():
         print("Classement_pseudo : {}".format(Classement_pseudo))
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=Type_tournoi, classement_pseudo=Classement_pseudo)
+    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=Classement_pseudo)
 
 
 
