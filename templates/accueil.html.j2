@@ -18,6 +18,7 @@
   <body onload="brython(1)">
     <header  class="site-header"><h1>Accueil</h1></header>  <!-- On affiche le titre -->
     <section  class="site-content">
+      <p class="error_msg">{{error_msg}}</p>
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
 

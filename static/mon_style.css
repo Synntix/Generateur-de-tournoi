@@ -100,3 +100,9 @@ overline {
   text-decoration: line-through;
   margin-right: 5px;
 }
+
+.error_msg {
+  color: red;
+  text-decoration: underline;
+  font-size: 20px;
+}
