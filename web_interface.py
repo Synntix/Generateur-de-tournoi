@@ -13,7 +13,7 @@ import tournoi_DB
 app = Flask(__name__)   # Initialise l'application Flask
 debug=True
 
-app.secret_key = 'Test'
+app.secret_key = 'TournoiAJE'
 
 
 @app.route('/')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
@@ -34,24 +34,20 @@ def donnees():
 
 @app.route('/player_entry/', methods=['POST'])
 def player_entry():
-    global Nbr_player
     global Type_tournoi
-    global Pts_win
-    global Pts_draw
-    global Pts_lose
     #On récupère les réponses des formulaires de la page d'accueil
     session['Nbr_player'] = int(request.form['nbr_player'])
     Type_tournoi=request.form['type_tournoi']
-    Pts_win=int(request.form['pts_win'])
-    Pts_draw=int(request.form['pts_draw'])
-    Pts_lose=int(request.form['pts_lose'])
+    session['Pts_win']=int(request.form['pts_win'])
+    session['Pts_draw']=int(request.form['pts_draw'])
+    session['Pts_lose']=int(request.form['pts_lose'])
 
     if debug==True:
         print("Nombre de joueurs : {}".format(session['Nbr_player']))
         print("Type de tournoi : {}".format(Type_tournoi))
-        print("Nombre de points par match gagné : {}".format(Pts_win))
-        print("Nombre de points par égalité : {}".format(Pts_draw))
-        print("Nombre de points par match perdu : {}".format(Pts_lose))
+        print("Nombre de points par match gagné : {}".format(session['Pts_win']))
+        print("Nombre de points par égalité : {}".format(session['Pts_draw']))
+        print("Nombre de points par match perdu : {}".format(session['Pts_lose']))
 
     #On utilise le template page2.html
     return render_template('page2.html.j2' , nbr_player=session['Nbr_player'], type_tournoi=Type_tournoi)
@@ -127,7 +123,7 @@ def results():
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
-    Classement_pseudo=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,Pts_win,Pts_draw,Pts_lose)
+    Classement_pseudo=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'])
     for i in range(len(Classement_pseudo)):
         Classement_pseudo[i]=list(Classement_pseudo[i])
     for i in range(len(Classement_pseudo)):
