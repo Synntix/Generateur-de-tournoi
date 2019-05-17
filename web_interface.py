@@ -116,12 +116,8 @@ def display():
 def results():
     results=[]
     for i in range(1,session['Nbr_matchs']+1) :
-        try:
-            #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
-            results.append(int(request.form['match{}'.format(i)]))
-        except KeyError:
-            Error_msg="Erreur : Vous n'avez pas renseigné l'issue du match {}".format(i)
-            return render_template("accueil.html.j2", error_msg=Error_msg)
+        #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
+        results.append(int(request.form['match{}'.format(i)]))
     if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
