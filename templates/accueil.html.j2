@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Générateur de tournoi</title>
-    <!-- On importe notre frichier css -->
+    <!-- On importe nos frichiers css -->
     <link href="{{ url_for('static', filename='mon_style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='toggle_switch.css') }}" rel="stylesheet" type="text/css" />
     <!-- On importe la librairie Brython -->
     <script type="text/javascript" src="{{url_for('static', filename='brython.js') }}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='brython_stdlib.js') }}"></script>
@@ -15,12 +16,39 @@
 
 
 
-  <body onload="brython(1)">
-    <header  class="site-header"><h1>Générateur de tournoi</h1></header>  <!-- On affiche le titre -->
+  <body id="test" onload="brython(1)">
+
+    <header class="site-header">
+
+    <h1>Générateur de tournoi</h1>  <!-- On affiche le titre -->
+
+    <label class="switch">
+      <input id="button_test" type="checkbox">
+      <span class="slider round"></span>
+    </label>
+
+    </header>
+
+
     <section  class="site-content">
       <p class="error_msg">{{error_msg}}</p>
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
+
+          <script type="text/python">
+            from browser import document
+
+            element = document["test"]
+
+            def change(event):
+              style = element.style
+              color = style.color
+              style.backgroundColor = "#1A1A1A" if style.backgroundColor == "white" else "white"
+              style.color = "white" if color == "black" else "black"
+
+
+            document["button_test"].bind("click", change)
+          </script>
 
           <!--Sélection du type de tournoi-->
           <h5><b>Séléctionnez le type de tournoi :</b></h5>
