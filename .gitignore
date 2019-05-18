@@ -1,0 +1,3 @@
+# Fichiers/dossiers devant être ignorés par Git
+# Doc : https://help.github.com/en/articles/ignoring-files
+__pycache__/

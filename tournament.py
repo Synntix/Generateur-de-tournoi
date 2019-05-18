@@ -1,10 +1,16 @@
 import tournoi_DB
 
-# Fonction principale, retourne liste des matchs pour n joueurs
-def getMatchList(n,extended=False,Berger=False):
+def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne liste des matchs pour n joueurs
     # Init liste matchs sous forme de tuples (ronde,joueur1,joueur2), *globale*
     global matchlist
     matchlist=[]
+    global Bye
+    if n%2==1:
+        n+=1
+        Bye=True
+    else:
+        Bye=False
+
     if Berger==True: # choix méhode Berger ou ruban
         if extended==True: # Ajout liste inversée si besoin
             return methodeBerger(n)+reverseMatchlist(n)
@@ -28,20 +34,20 @@ def methodeBerger(n): # Méthode utilisant règles de la table de Berger
                 if b!=n and a!=n:
                     if a+b-1<n:
                         if r==a+b-1:
-                            matchCreate(a,b,r)
+                            matchCreate(n,a,b,r)
                             #break
                     else: # a+b-1>=n
                         if r==a+b-n:
-                            matchCreate(a,b,r)
+                            matchCreate(n,a,b,r)
                             #break
                 else:
                     if 2*a<=n:
                         if r==2*a-1:
-                            matchCreate(a,b,r)
+                            matchCreate(n,a,b,r)
                             #break
                     else: # 2a>n
                         if r==2*a-n:
-                            matchCreate(a,b,r)
+                            matchCreate(n,a,b,r)
                             #break
     return matchlist
 
@@ -55,42 +61,41 @@ def methodeRuban(n): # Méthode du ruban, plus rapide
     b=int((n/2)-1)
 
     for r in range(1,n):
-        matchCreate(1,Rb[int(b+n/2-1)%(n-1)],r,False) # Cas du 1
+        matchCreate(n,1,Rb[int(b+n/2-1)%(n-1)],r,False) # Cas du 1
         for i in range(0,int(n/2-2)+1): # Cas des autres matchs
-            matchCreate(Rb[(h+i)%(n-1)],Rb[int(b+n/2-2-i)%(n-1)],r,False)
+            matchCreate(n,Rb[(h+i)%(n-1)],Rb[int(b+n/2-2-i)%(n-1)],r,False)
         # Décalage des pointeurs
         h=(h-1)%(n-1)
         b=(b-1)%(n-1)
     return matchlist
 
-# Fonction ajoutant à matchlist un match entre a et b à la ronde r
-# sous forme (r,a,b)
-def matchCreate(a,b,r,verif=True):
+def matchCreate(n,a,b,r,verif=True): # Fonction ajoutant à matchlist un match entre a et b à la ronde r sous forme (r,a,b)
     if not verif: #possibilité d'éviter la vérification (pour ruban)
-        matchlist.append((r,a,b))
-    elif a!=b and duplicateMatch(a,b)!=True:
-    # enlever les matchs contre soi-même et les doublons
-        matchlist.append((r,a,b))
-        #print('Ronde {} : {} VS {}'.format(r,a,b))
+        if not Bye:
+            matchlist.append((r,a,b))
+        elif a!=n and b!=n:
+            matchlist.append((r,a,b))
 
-#fonction vérifiant les matchs doublons, matchlist sert d'historique
-def duplicateMatch(p1,p2):
+    elif a!=b and not duplicateMatch(a,b): # enlever les matchs contre soi-même et les doublons
+        if not Bye:
+            matchlist.append((r,a,b))
+        elif a!=n and b!=n:
+            matchlist.append((r,a,b))
+            #print('Ronde {} : {} VS {}'.format(r,a,b))
+
+def duplicateMatch(p1,p2): # Fonction vérifiant les matchs doublons, matchlist sert d'historique
     for i in matchlist:
         if i[2]==p1 and i[1]==p2:
             return True
 
-# Fonction inversant les 2 joueurs de chaque tuple-match de matchlist,
-# pour le tournoi étendu
-def reverseMatchlist(n):
+def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
     invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
 
-# Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
-def deuxiemeTerme(untuple):
+def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
 
-# Fonction de calcul des scores et du classement
-def getClassement(n,matchlist,win,kw=1,kd=0,kl=0):
+def getClassement(n,matchlist,win,kw=1,kd=0,kl=0): # Fonction de calcul des scores et du classement
     classement=[]
     nbMatchs=len(matchlist)
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
@@ -120,5 +125,5 @@ def getClassement(n,matchlist,win,kw=1,kd=0,kl=0):
 # Exécute getMatchList seulement si le programme est lancé seul (non importé)
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,False,True))
+    sys.exit(getMatchList(5,False,False))
     #sys.exit(getClassement(6,getMatchList(6),[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5]))
