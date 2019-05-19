@@ -1,6 +1,8 @@
 import tournoi_DB
 
-def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne liste des matchs pour n joueurs
+def getMatchList(n,extended=False,Berger=False,debug_algo=False): # Fonction principale, retourne liste des matchs pour n joueurs
+    global debug
+    debug=debug_algo # Astuce pour avoir une variable debug globale à partir d'un paramètre
     # Init liste matchs sous forme de tuples (ronde,joueur1,joueur2), *globale*
     global matchlist
     matchlist=[]
@@ -10,7 +12,8 @@ def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne
         Bye=True
     else:
         Bye=False
-
+    if debug:
+        print("#ALGO# Nb joueurs = {} \n#ALGO# Bye = {}".format(n,Bye))
     if Berger==True: # choix méhode Berger ou ruban
         if extended==True: # Ajout liste inversée si besoin
             return methodeBerger(n)+reverseMatchlist(n)
@@ -24,7 +27,8 @@ def getMatchList(n,extended=False,Berger=False): # Fonction principale, retourne
 
 
 def methodeBerger(n): # Méthode utilisant règles de la table de Berger
-    #print('berger')
+    if debug:
+        print("#ALGO# Méthode Berger")
     if n%2!=0:
         return [] # Sécurité: vérifier si nombre joueurs est bien pair
 
@@ -52,7 +56,8 @@ def methodeBerger(n): # Méthode utilisant règles de la table de Berger
     return matchlist
 
 def methodeRuban(n): # Méthode du ruban, plus rapide
-    #print('ruban')
+    if debug:
+        print("#ALGO# Méthode ruban")
     if n%2!=0:
         return [] # Sécurité: vérifier si nombre joueurs est bien pair
     Rb=[i for i in range(2,n+1)] # générer ruban de joueurs sauf le 1
@@ -89,6 +94,8 @@ def duplicateMatch(p1,p2): # Fonction vérifiant les matchs doublons, matchlist 
             return True
 
 def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-match de matchlist, pour le tournoi étendu
+    if debug:
+        print("#ALGO# Ajout inversion matchlist")
     invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
 
@@ -98,6 +105,8 @@ def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilis
 def getClassement(n,matchlist,win,kw=1,kd=0,kl=0): # Fonction de calcul des scores et du classement
     classement=[]
     nbMatchs=len(matchlist)
+    if debug:
+        print("#ALGO# Calcul score pour {} matchs".format(nbMatchs))
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
     draw=[]
     lose=[]
@@ -115,11 +124,21 @@ def getClassement(n,matchlist,win,kw=1,kd=0,kl=0): # Fonction de calcul des scor
             # on ajoute les deux joueurs à draw
             draw.append(matchlist[i][1])
             draw.append(matchlist[i][2])
-
+    if debug:
+        print("#ALGO# Liste des victoires :\n",win)
+        print("#ALGO# Liste des égalités :\n",draw)
+        print("#ALGO# Liste des défaites \n",lose)
     for pl in range(1,n+1): #Calcul du score pour chaque joueur
-        classement.append((pl,kw*win.count(pl)+kd*draw.count(pl)+kl*lose.count(pl)))
+        score=kw*win.count(pl)+kd*draw.count(pl)+kl*lose.count(pl)
+        classement.append((pl,score))
+        if debug:
+            print("#ALGO# --Score joueur {} = {}".format(pl,score))
+    if debug:
+        print("#ALGO# Classement non ordonné :\n",classement)
     #Tri inversé en prenant le 2e terme (score)
     classement.sort(reverse=True,key=deuxiemeTerme)
+    if debug:
+        print("#ALGO# Classement :\n",classement)
     return classement
 
 # Exécute getMatchList seulement si le programme est lancé seul (non importé)

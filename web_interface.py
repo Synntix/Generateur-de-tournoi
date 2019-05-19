@@ -12,6 +12,7 @@ import tournament
 import tournoi_DB
 app = Flask(__name__)   # Initialise l'application Flask
 debug=True
+debug_algo=True
 
 app.secret_key = 'TournoiAJE'
 
@@ -84,7 +85,7 @@ def display():
         print("Barrages = {}".format(Barrages))
 
     #On récupère la liste des matchs
-    Matchlist=tournament.getMatchList(session['Nbr_player'],Extended)
+    Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,False,debug_algo)
     session['Matchlist']=Matchlist
     if debug==True:
         print("Liste des matchs par ID :\n{}".format(Matchlist))
@@ -97,7 +98,7 @@ def display():
     tournoi_DB.createPlayers(Players)
 
     #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
-    Matchlist_pseudo=tournament.getMatchList(session['Nbr_player'],Extended)
+    Matchlist_pseudo=tournament.getMatchList(session['Nbr_player'],Extended,False,debug_algo)
     for i in range(len(Matchlist_pseudo)):
         Matchlist_pseudo[i]=list(Matchlist_pseudo[i])
     for i in Matchlist_pseudo:
