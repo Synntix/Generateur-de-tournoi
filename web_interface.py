@@ -7,6 +7,7 @@
 #python_version  :3.7
 #=======================================================================
 from flask import Flask, render_template, url_for, request, session
+from copy import deepcopy
 import sqlite3
 import tournament
 import tournoi_DB
@@ -97,7 +98,7 @@ def display():
     tournoi_DB.createPlayers(Players)
 
     #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
-    Matchlist_pseudo=tournament.getMatchList(session['Nbr_player'],Extended)
+    Matchlist_pseudo=deepcopy(Matchlist)
     for i in range(len(Matchlist_pseudo)):
         Matchlist_pseudo[i]=list(Matchlist_pseudo[i])
     for i in Matchlist_pseudo:
