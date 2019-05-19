@@ -29,7 +29,7 @@
           <!--Sélection du type de tournoi-->
           <h5><b>Séléctionnez le type de tournoi :</b></h5>
           <input type="radio" name="type_tournoi" value="Ligue" id="ligue" checked>
-          <label for="ligue" title="Tous les joueurs se rencontrent au moins une fois">Toutes rondes (Ligue)</label><br/>
+          <label for="ligue" title="Dans un tournoi toutes rondes, ou 'fermé', chaque joueur rencontre tous les autres joueurs une fois (ou plus en mode étendu), et reçoit des points en fonction de l'issue de chaque match (victoire, égalité ou défaite). Le classement final est établi à partir du total de points de chaque joueur.">Toutes rondes (Ligue)</label><br/>
           <input type="radio" name="type_tournoi" value="Simple élimination" id="1elim" disabled>
           <label for="1elim" class="simple_elim"><overline>Simple élimination</overline> (Prochainement ...)</label></br>
           <input type="radio" name="type_tournoi" value="Double élimination" id="2elim" disabled>
@@ -43,7 +43,7 @@
           </br></br>
 
           <!--Entrée du nombre de points par évènement-->
-          <h5>Nombre de points par évènement:</h5>
+          <h5 id="title_nbr_pts" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
           <label for="pts_win">Points par match gagné :</label>
           <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
           <label for="pts_win">Points par égalité :</label>

@@ -127,3 +127,11 @@ overline {
 #txt_data {
   position: fixed;
 }
+
+#title_nbr_pts {
+  text-decoration-style:dashed;
+}
+
+#title_nbr_pts:hover {
+  cursor: help;
+}
