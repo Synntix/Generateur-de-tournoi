@@ -12,6 +12,7 @@ import sqlite3
 import tournament
 import tournoi_DB
 app = Flask(__name__)   # Initialise l'application Flask
+debug=True
 debug_algo=True
 
 app.secret_key = 'TournoiAJE'
@@ -19,7 +20,6 @@ app.secret_key = 'TournoiAJE'
 
 @app.route('/')  #On donne la route ici "/"  l'adresse sera donc localhost:5000/
 def accueil():
-    session['debug']=False
     #On utilise le template accueil.html
     return render_template("accueil.html.j2")
 
@@ -43,7 +43,7 @@ def player_entry():
     session['Pts_draw']=int(request.form['pts_draw'])
     session['Pts_lose']=int(request.form['pts_lose'])
 
-    if session['debug']==True:
+    if debug==True:
         print("Nombre de joueurs : {}".format(session['Nbr_player']))
         print("Type de tournoi : {}".format(session['Type_tournoi']))
         print("Nombre de points par match gagné : {}".format(session['Pts_win']))
@@ -64,7 +64,7 @@ def display():
     for i in range(1,session['Nbr_player']+1) :
         #On ajoute le pseudo des joueurs à la liste "Players"
         Players.append(request.form['pseudo{}'.format(i)])
-    if session['debug']==True:
+    if debug==True:
         print("Liste des joueurs :\n{}".format(Players))
 
     #On récupère le choix sur la longueur du tournoi et on en fait un booléen
@@ -73,7 +73,7 @@ def display():
         Extended=True
     elif Extended=="1":
         Extended=False
-    if session['debug']==True:
+    if debug==True:
         print("Extended = {}".format(Extended))
 
     #On récupère le choix sur les matchs de barrage et on en fait un booléen
@@ -82,13 +82,13 @@ def display():
         Barrages=True
     elif Barrages=="1":
         Barrages=False
-    if session['debug']==True:
+    if debug==True:
         print("Barrages = {}".format(Barrages))
 
     #On récupère la liste des matchs
     Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,False,debug_algo)
     session['Matchlist']=Matchlist
-    if session['debug']==True:
+    if debug==True:
         print("Liste des matchs par ID :\n{}".format(Matchlist))
     session['Nbr_matchs'] = len(Matchlist)
 
@@ -105,7 +105,7 @@ def display():
     for i in Matchlist_pseudo:
         i[1]=tournoi_DB.getPseudo(i[1])
         i[2]=tournoi_DB.getPseudo(i[2])
-    if session['debug']==True:
+    if debug==True:
         print("Liste des matchs par pseudo : \n{}".format(Matchlist_pseudo))
 
     #On utilise le template display.html
@@ -120,16 +120,16 @@ def results():
     for i in range(1,session['Nbr_matchs']+1) :
         #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
         results.append(int(request.form['match{}'.format(i)]))
-    if session['debug']==True:
+    if debug==True:
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
-    Classement_pseudo=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'])
+    Classement_pseudo=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
     for i in range(len(Classement_pseudo)):
         Classement_pseudo[i]=list(Classement_pseudo[i])
     for i in range(len(Classement_pseudo)):
         Classement_pseudo[i][0]=(tournoi_DB.getPseudo(Classement_pseudo[i][0]))
-    if session['debug']==True:
+    if debug==True:
         print("Classement_pseudo : {}".format(Classement_pseudo))
 
     #On utilise le template results.html
