@@ -18,37 +18,13 @@
 
   <body id="test" onload="brython(1)">
 
-    <header class="site-header">
-
-    <h1>Générateur de tournoi</h1>  <!-- On affiche le titre -->
-
-    <label class="switch">
-      <input id="button_test" type="checkbox">
-      <span class="slider round"></span>
-    </label>
-
-    </header>
+    <header class="site-header">  <h1>Générateur de tournoi</h1>  <!-- On affiche le titre --></header>
 
 
     <section  class="site-content">
       <p class="error_msg">{{error_msg}}</p>
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
-
-          <script type="text/python">
-            from browser import document
-
-            element = document["test"]
-
-            def change(event):
-              style = element.style
-              color = style.color
-              style.backgroundColor = "#1A1A1A" if style.backgroundColor == "white" else "white"
-              style.color = "white" if color == "black" else "black"
-
-
-            document["button_test"].bind("click", change)
-          </script>
 
           <!--Sélection du type de tournoi-->
           <h5><b>Séléctionnez le type de tournoi :</b></h5>
@@ -85,7 +61,28 @@
 
 
     <footer>
-      <a class="link" href="{{ url_for('donnees') }}">Informations sur les données collectées</a>
+      <a id="txt_data" class="link" href="{{ url_for('donnees') }}">Informations sur les données collectées</a>
+
+      <script type="text/python">
+        from browser import document
+
+        element = document["test"]
+
+        def change(event):
+          style = element.style
+          color = style.color
+          style.backgroundColor = "#1A1A1A" if style.backgroundColor == "white" else "white"
+          style.color = "white" if color == "black" else "black"
+
+
+        document["button_test"].bind("click", change)
+      </script>
+      <label class="switch">
+        <input id="button_test" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+      <p class="text_switch">Changez de thème !</p>
+
     </footer>
 
 
