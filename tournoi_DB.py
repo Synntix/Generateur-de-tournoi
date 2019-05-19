@@ -51,6 +51,7 @@ def getPseudo(pIds):
 
     pIds=(pIds,)
 
+    curseur = connexion.cursor()
     pseudos = curseur.execute('SELECT pseudo FROM joueurs WHERE id in (?)',pIds).fetchall()
 
     return pseudos
