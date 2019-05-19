@@ -102,7 +102,7 @@ def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-matc
 def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
 
-def getClassement(n,matchlist,win,kw=1,kd=0,kl=0,debug_algo=False): # Fonction de calcul des scores et du classement
+def getClassement(n,matchlist,win,kw=1,kd=0,kl=0,debug=False): # Fonction de calcul des scores et du classement
     classement=[]
     nbMatchs=len(matchlist)
     if debug:
