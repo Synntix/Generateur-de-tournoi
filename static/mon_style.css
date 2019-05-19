@@ -54,11 +54,6 @@ header div {
   width:200px;
 }
 
-.link {
-  color: #bbbbbb;
-  margin-bottom: 10px;
-}
-
 #matchs {
   height: 70px;
   width: 300px;
@@ -112,20 +107,20 @@ overline {
   position: fixed;
   float: right;
   margin-bottom: 5px;
+  margin-top: 17px;
 }
 
 .text_switch {
   position: relative;
   float: right;
   right: 10px;
-}
-
-#button_test {
-  margin-right: 50px;
+  margin-bottom: 5px;
 }
 
 #txt_data {
   position: fixed;
+  color: #bbbbbb;
+  margin-bottom: 10px;
 }
 
 #title_nbr_pts {
