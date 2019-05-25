@@ -99,50 +99,86 @@ def reverseMatchlist(n): # Fonction inversant les 2 joueurs de chaque tuple-matc
     invlist=[(i[0]+n-1,i[2],i[1]) for i in matchlist]
     return invlist
 
-def deuxiemeTerme(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
+def terme2(untuple): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
     return untuple[1]
-
-def getClassement(n,matchlist,win,kw=1,kd=0,kl=0,debug=False): # Fonction de calcul des scores et du classement
+def terme3(liste): # Fonction retournant le 2e terme d'un tuple, utilisée comme clé pour sort()
+    return liste[2]
+def getClassement(n,matchlist,results,kw=1,kd=0,kl=0,debug=False): # Fonction de calcul des scores et du classement
+    from copy import deepcopy
     classement=[]
+    scores=[]
     nbMatchs=len(matchlist)
     if debug:
         print("#ALGO# Calcul score pour {} matchs".format(nbMatchs))
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
-    draw=[]
-    lose=[]
+    win=[[] for i in range(n)]
+    draw=deepcopy(win)
+    lose=deepcopy(win)
     # On met l'id d'un joueur dans draw quand il fait une égalité
     # et dans lose quand il perd
     for i in range(0,nbMatchs):
-        # Si le gagnant du match i est le joueur 1 du match i,
-        if win[i]==matchlist[i][1]:
-            # on ajoute le joueur 2 à lose
-            lose.append(matchlist[i][2])
-        elif win[i]==matchlist[i][2]: # sinon si le gagnant est le joueur 2,
-            # on ajoute le joueur 1 à lose
-            lose.append(matchlist[i][1])
-        elif win[i]==0: # sinon si le gagnant est 0 (égalité)
-            # on ajoute les deux joueurs à draw
-            draw.append(matchlist[i][1])
-            draw.append(matchlist[i][2])
+
+        # On a accès au gagnant avec results[i], donc on définit loser pour avoir accès au perdant
+
+        if results[i] == matchlist[i][1]: # Si le gagnant du match i est le joueur 1 du match i,
+            loser=matchlist[i][2] # le perdant est le joueur 2
+        elif results[i] == matchlist[i][2]: # sinon si le gagnant est le joueur 2,
+            loser=matchlist[i][1] # le perdant est le joueur 1
+        elif results[i] == 0: # sinon si le gagnant est 0 (égalité)
+            draw[results[i]-1].append(loser)
+            draw[loser-1].append(results[i])
+            continue
+        # Ici le gagnant est results[i], le perdant est loser
+        win[results[i]-1].append(loser) # On ajoute le perdant à la liste de victoires du gagnant
+        lose[loser-1].append(results[i]) # On ajoute le gagnant à la liste de défaites du perdant
     if debug:
         print("#ALGO# Liste des victoires :\n",win)
         print("#ALGO# Liste des égalités :\n",draw)
         print("#ALGO# Liste des défaites \n",lose)
+
+
     for pl in range(1,n+1): #Calcul du score pour chaque joueur
-        score=kw*win.count(pl)+kd*draw.count(pl)+kl*lose.count(pl)
-        classement.append((pl,score))
+        score = kw*len(win[pl-1]) + kd*len(draw[pl-1]) + kl*len(lose[pl-1])
+        scores.append([pl,score])
+    for i in scores: # Une fois les scores obtenus, calcul du score Sonneborn-Berger pour chaque joueur
+        i.append(getSonnBerg(i[0],scores,win,draw))
         if debug:
-            print("#ALGO# --Score joueur {} = {}".format(pl,score))
+            print("#ALGO# -- Joueur : {} | Score : {} | SonnBerg : {}".format(i[0],i[1],i[2]))
     if debug:
-        print("#ALGO# Classement non ordonné :\n",classement)
-    #Tri inversé en prenant le 2e terme (score)
-    classement.sort(reverse=True,key=deuxiemeTerme)
+        print("#ALGO# Classement non ordonné :\n",scores)
+
+    classement=bubbleSort(scores,win) # Tri à bulles suivant les 3 critères
+    classement.reverse() # On inverse pour avoir un classement décroissant
     if debug:
-        print("#ALGO# Classement :\n",classement)
+        print("#ALGO# Classement ordonné :\n",classement)
     return classement
+
+def getSonnBerg(pl,scores,win,draw): # Fonction de calcul du score Sonneborn-Berger (SBscore)) pour le joueur pl
+    SBscore=0 # Init SBscore à 0
+    for adv in win[pl-1]:           # Pour chaque adversaire contre qui pl a gagné,
+         SBscore += scores[adv-1][1]   # on ajoute son score au SBscore
+    for adv in draw[pl-1]:          # Et pour chaque adversaire contre qui pl a égalisé,
+         SBscore += scores[adv-1][1]/2 # on ajoute la moitié de son score au SBscore
+    return SBscore
+
+def bubbleSort(scores,win): # Fonction de tri "à bulles" de scores, le meilleur joueur à la fin
+    n = len(scores)
+    for i in range(n): # Pour tous les éléments de la liste
+        for j in range(0, n-i-1): # On traverse de 0 à n-i-1
+            # et si le joueur j est meilleur (voir conditions) que le joueur j+1, on passe j devant j+1 (inversion)
+            # Conditions :
+            if scores[j][1] > scores[j+1][1] :      # Score de j meilleur
+                scores[j], scores[j+1] = scores[j+1], scores[j]
+            elif scores[j][1] == scores[j+1][1]:
+                if scores[j][2] > scores[j+1][2]:   # ou Scores égaux ET score SonnBerg de j meilleur
+                    scores[j], scores[j+1] = scores[j+1], scores[j]
+                elif scores[j][2] == scores[j+1][2] and scores[j+1][0] in win[scores[j][0]-1]:
+                    # ou Scores égaux, scores SonnBerg égaux et j a gagné contre j+1 (càd j+1 dans la liste de victoires de j)
+                    scores[j], scores[j+1] = scores[j+1], scores[j]
+    return scores
 
 # Exécute getMatchList seulement si le programme est lancé seul (non importé)
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(5,False,False))
-    #sys.exit(getClassement(6,getMatchList(6),[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5]))
+    sys.exit(getMatchList(6,False,False))
+    #sys.exit(getClassement(6,[(1, 1, 6), (1, 2, 5), (1, 3, 4), (2, 1, 5), (2, 6, 4), (2, 2, 3), (3, 1, 4), (3, 5, 3), (3, 6, 2), (4, 1, 3), (4, 4, 2), (4, 5, 6), (5, 1, 2), (5, 3, 6), (5, 4, 5)],[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5],1,0,0,True))
