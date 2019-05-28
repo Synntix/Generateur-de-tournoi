@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Générateur de tournoi</title>
-    <!-- On importe notre frichier css -->
+    <!-- On importe nos fichiers css -->
     <link href="{{ url_for('static', filename='mon_style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='toggle_switch.css') }}" rel="stylesheet" type="text/css" />
     <!-- On importe la librairie Brython -->
     <script type="text/javascript" src="{{url_for('static', filename='brython.js') }}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='brython_stdlib.js') }}"></script>
@@ -13,16 +14,22 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   </head>
 
-  <body onload="brython(1)">
-    <header  class="site-header"><h1>Accueil</h1></header>  <!-- On affiche le titre -->
+
+
+  <body id="body" onload="brython(1)">
+
+    <header class="site-header">  <h1>Générateur de tournoi</h1>  <!-- On affiche le titre --></header>
+
+
     <section  class="site-content">
+      <p class="error_msg">{{error_msg}}</p>
       <div id="selection_type">
         <form method="post" action="{{ url_for('player_entry') }}">
 
-          <!--Sélction du type de tournoi-->
+          <!--Sélection du type de tournoi-->
           <h5><b>Séléctionnez le type de tournoi :</b></h5>
           <input type="radio" name="type_tournoi" value="Ligue" id="ligue" checked>
-          <label for="ligue">Ligue</label><br/>
+          <label for="ligue" title="Dans un tournoi toutes rondes, ou 'fermé', chaque joueur rencontre tous les autres joueurs une fois (ou plus en mode étendu), et reçoit des points en fonction de l'issue de chaque match (victoire, égalité ou défaite). Le classement final est établi à partir du total de points de chaque joueur.">Toutes rondes (Ligue)</label><br/>
           <input type="radio" name="type_tournoi" value="Simple élimination" id="1elim" disabled>
           <label for="1elim" class="simple_elim"><overline>Simple élimination</overline> (Prochainement ...)</label></br>
           <input type="radio" name="type_tournoi" value="Double élimination" id="2elim" disabled>
@@ -36,12 +43,12 @@
           </br></br>
 
           <!--Entrée du nombre de points par évènement-->
-          <h5>Nombre de points par évènenent:</h5>
-          <label for="pts_win">Nombre de points par match gagné :</label>
+          <h5 id="title_nbr_pts" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
+          <label for="pts_win">Points par match gagné :</label>
           <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
-          <label for="pts_win">Nombre de points par égalité :</label>
+          <label for="pts_win">Points par égalité :</label>
           <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
-          <label for="pts_win">Nombre de points par match perdu :</label>
+          <label for="pts_win">Points par match perdu :</label>
           <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
           </br></br>
 
@@ -50,8 +57,33 @@
         </form>
       </div>
     </section>
+
+
+
     <footer>
+      <a id="txt_data" href="{{ url_for('donnees') }}">Informations sur les données collectées</a>
+
+      <script type="text/python">
+        from browser import document
+
+        element = document["body"]
+
+        def change_theme(event):
+          element.style.backgroundColor = "#1A1A1A" if element.style.backgroundColor == "white" else "white"
+          element.style.color = "white" if element.style.color == "black" else "black"
+          document["txt_data"].style.color = "#bbbbbb" if document["txt_data"].style.color == "black" else "black"
+
+        document["switch_theme"].bind("click", change_theme)
+      </script>
+      <label class="switch">
+        <input id="switch_theme" type="checkbox">
+        <span class="slider round"></span>
+      </label>
+      <p class="text_switch">Changez de thème !</p>
 
     </footer>
+
+
+
   </body>
 </html>

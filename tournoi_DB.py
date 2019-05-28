@@ -51,6 +51,8 @@ def getPseudo(pIds):
 
     pIds=(pIds,)
 
+    connexion = sqlite3.connect("tournoi.sqlite3", check_same_thread=False)
+    curseur = connexion.cursor()
     pseudos = curseur.execute('SELECT pseudo FROM joueurs WHERE id in (?)',pIds).fetchall()
 
     return pseudos
@@ -58,7 +60,7 @@ def getPseudo(pIds):
 # CREATE
 def openDB():
     global connexion
-    connexion = sqlite3.connect("tournoi.sqlite3")
+    connexion = sqlite3.connect("tournoi.sqlite3", check_same_thread=False)
 
 def closeDB():
     connexion.close()

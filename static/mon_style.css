@@ -23,6 +23,13 @@ section {
   min-height:100%;
 }
 
+footer {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    grid-template-columns: auto auto auto;
+}
+
 h1 {
     color: red;
     text-align: center;
@@ -66,10 +73,6 @@ header div {
   margin-left: 3px;
 }
 
-#checkshort {
-  margin-left: 13px;
-}
-
 .finalplace1 {
   font-size: 35px;
   color: red;
@@ -91,4 +94,39 @@ header div {
 overline {
   color: gray;
   text-decoration: line-through;
+  margin-right: 5px;
+}
+
+.error_msg {
+  color: red;
+  text-decoration: underline;
+  font-size: 20px;
+}
+
+.switch {
+  position: fixed;
+  float: right;
+  margin-bottom: 5px;
+  margin-top: 17px;
+}
+
+.text_switch {
+  position: relative;
+  float: right;
+  right: 10px;
+  margin-bottom: 5px;
+}
+
+#txt_data {
+  position: fixed;
+  color: #bbbbbb;
+  margin-bottom: 10px;
+}
+
+#title_nbr_pts {
+  text-decoration-style:dashed;
+}
+
+#title_nbr_pts:hover {
+  cursor: help;
 }

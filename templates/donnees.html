@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <head>
+      <meta charset="utf-8" />
+      <title>Générateur de tournoi</title>
+      <!-- On importe notre frichier css -->
+      <link href="{{ url_for('static', filename='mon_style.css') }}" rel="stylesheet" type="text/css" />
+      <!-- On importe notre favicon et la police -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+      <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    </head>
+  </head>
+
+
+
+  <body onload="brython(1)">
+
+
+    <header  class="site-header">
+      <!-- Bouton de retour à l'accueil -->
+      <div><a id="bouton_retour" href="{{ url_for('accueil') }}"><h4>Retour à l'accueil</h4></a></div>
+      <!-- On affiche le titre -->
+      <h1>Informations sur les données collectées</h1>
+    </header>
+
+
+    <section  class="site-content">
+      <p>Afin d'assurer le fonctionnement de notre service, nous collectons les noms des joueurs et les résultats des matchs en vue d'établir un classement. Les noms des joueurs, les résultats, le classement, les paramètres divers du tournoi ainsi que toutes autres données fournies par l'utilisateur sont stocké(e)s uniquement pour le tournoi en cours puis effacé(e)s de notre base de données après chaque tournoi, et aucune de ces données n'est conservée à moyen ou long terme.</p>
+      <br/>
+      <p>Nous vous avertirons en cas de changement de notre politique d'utilisation des données.</p>
+    </section>
+
+
+    <footer>
+
+    </footer>
+
+
+  </body>
+</html>
