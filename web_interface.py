@@ -154,13 +154,13 @@ def results():
     Story.append(Spacer(1, 12))
 
     for i in range (0,session['Nbr_player']):
-        ptext = "<font size=12>{0}. {1}</font>".format(i,session['Players'][i])
+        ptext = "<font size=12>{0}. {1} avec {2} points.</font>".format(i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1])
         Story.append(Paragraph(ptext, styles["Normal"]))
-
-        curr_dir=os.getcwd()
-        os.chdir(curr_dir+'/static')
-        doc.build(Story)
-        os.chdir(curr_dir)
+    print(Story)
+    curr_dir=os.getcwd()
+    os.chdir(curr_dir+'/static')
+    doc.build(Story)
+    os.chdir(curr_dir)
 
     #On utilise le template results.html
     return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=session['Classement_pseudo'])

@@ -130,3 +130,23 @@ overline {
 #title_nbr_pts:hover {
   cursor: help;
 }
+
+.doc_dl {
+  background: #495CFF ;
+  border: 2px solid grey ;
+  width: 10%;
+  border-radius: 3px;
+  padding: 5px 5px 5px 5px ;
+  text-align: center ;
+  font-size: 1em;
+  color: white;
+}
+
+.doc_dl:hover, .doc_dl:focus, .doc_dl:active {
+  background: #5EB6DD ;
+  text-decoration: underline;
+}
+
+section a {
+  text-decoration: none;
+}
