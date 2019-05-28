@@ -7,6 +7,15 @@
 #python_version  :3.7
 #=======================================================================
 from flask import Flask, render_template, url_for, request, session
+import time
+import os
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import mm
+from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from copy import deepcopy
 import sqlite3
 import tournament
@@ -59,13 +68,12 @@ def player_entry():
 @app.route('/display/', methods=['POST'])
 def display():
     #On crée la liste 'Players' et on ajoute tous les pseudo des participants
-    global Players
-    Players=[]
+    session['Players']=[]
     for i in range(1,session['Nbr_player']+1) :
         #On ajoute le pseudo des joueurs à la liste "Players"
-        Players.append(request.form['pseudo{}'.format(i)])
+        session['Players'].append(request.form['pseudo{}'.format(i)])
     if debug==True:
-        print("Liste des joueurs :\n{}".format(Players))
+        print("Liste des joueurs :\n{}".format(session['Players']))
 
     #On récupère le choix sur la longueur du tournoi et on en fait un booléen
     Extended=request.form['shortcheckbox']
@@ -96,7 +104,7 @@ def display():
     tournoi_DB.openDB()
     tournoi_DB.createTables()
     #On donne la liste des joueurs à la base de donnée
-    tournoi_DB.createPlayers(Players)
+    tournoi_DB.createPlayers(session['Players'])
 
     #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
     Matchlist_pseudo=deepcopy(Matchlist)
@@ -109,7 +117,7 @@ def display():
         print("Liste des matchs par pseudo : \n{}".format(Matchlist_pseudo))
 
     #On utilise le template display.html
-    return render_template('display.html.j2' , players=Players ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=session['Nbr_matchs'])
+    return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=session['Nbr_matchs'])
 
 
 
@@ -124,16 +132,38 @@ def results():
         print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
-    Classement_pseudo=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
-    for i in range(len(Classement_pseudo)):
-        Classement_pseudo[i]=list(Classement_pseudo[i])
-    for i in range(len(Classement_pseudo)):
-        Classement_pseudo[i][0]=(tournoi_DB.getPseudo(Classement_pseudo[i][0]))
+    session['Classement_pseudo']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
+    for i in range(len(session['Classement_pseudo'])):
+        session['Classement_pseudo'][i]=list(session['Classement_pseudo'][i])
+    for i in range(len(session['Classement_pseudo'])):
+        session['Classement_pseudo'][i][0]=(tournoi_DB.getPseudo(session['Classement_pseudo'][i][0]))
     if debug==True:
-        print("Classement_pseudo : {}".format(Classement_pseudo))
+        print("Classement_pseudo : {}".format(session['Classement_pseudo']))
+
+    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18)
+
+    Story=[]
+
+    styles=getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
+
+    titre_pdf="{0} de {1} joueurs".format(session['Type_tournoi'],session['Nbr_player'])
+    ptext = '<font size=12>%s</font>' % titre_pdf
+    Story.append(Paragraph(ptext, styles["Normal"]))
+
+    Story.append(Spacer(1, 12))
+
+    for i in range (0,session['Nbr_player']):
+        ptext = "<font size=12>{0}. {1}</font>".format(i,session['Players'][i])
+        Story.append(Paragraph(ptext, styles["Normal"]))
+
+        curr_dir=os.getcwd()
+        os.chdir(curr_dir+'/static')
+        doc.build(Story)
+        os.chdir(curr_dir)
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=Classement_pseudo)
+    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=session['Classement_pseudo'])
 
 
 
