@@ -109,6 +109,8 @@ def getClassement(n,matchlist,results,kw=1,kd=0,kl=0,debug=False): # Fonction de
     scores=[]
     nbMatchs=len(matchlist)
     if debug:
+        print("#ALGO# Liste des matchs :\n",matchlist)
+        print("#ALGO# Résultats :\n",results)
         print("#ALGO# Calcul score pour {} matchs".format(nbMatchs))
     # win est la liste des gagnants (ex: win[4] donne le gagnant du 4e match)
     win=[[] for i in range(n)]
@@ -119,14 +121,13 @@ def getClassement(n,matchlist,results,kw=1,kd=0,kl=0,debug=False): # Fonction de
     for i in range(0,nbMatchs):
 
         # On a accès au gagnant avec results[i], donc on définit loser pour avoir accès au perdant
-
         if results[i] == matchlist[i][1]: # Si le gagnant du match i est le joueur 1 du match i,
             loser=matchlist[i][2] # le perdant est le joueur 2
         elif results[i] == matchlist[i][2]: # sinon si le gagnant est le joueur 2,
             loser=matchlist[i][1] # le perdant est le joueur 1
         elif results[i] == 0: # sinon si le gagnant est 0 (égalité)
-            draw[results[i]-1].append(loser)
-            draw[loser-1].append(results[i])
+            draw[matchlist[i][1]-1].append(matchlist[i][2])
+            draw[matchlist[i][2]-1].append(matchlist[i][1])
             continue
         # Ici le gagnant est results[i], le perdant est loser
         win[results[i]-1].append(loser) # On ajoute le perdant à la liste de victoires du gagnant
@@ -173,12 +174,29 @@ def bubbleSort(scores,win): # Fonction de tri "à bulles" de scores, le meilleur
                 if scores[j][2] > scores[j+1][2]:   # ou Scores égaux ET score SonnBerg de j meilleur
                     scores[j], scores[j+1] = scores[j+1], scores[j]
                 elif scores[j][2] == scores[j+1][2] and scores[j+1][0] in win[scores[j][0]-1]:
-                    # ou Scores égaux, scores SonnBerg égaux et j a gagné contre j+1 (càd j+1 dans la liste de victoires de j)
+                    # ou Scores égaux, scores SonnBerg égaux et j a gagné contre j+1 (càd j+1 est dans la liste de victoires de j)
                     scores[j], scores[j+1] = scores[j+1], scores[j]
     return scores
+
+
+def SimulateRandom(nbjoueurs,extended=False,berger=False,kwin=1,kdraw=0,klose=0):
+    from random import choice
+    from time import time
+    start_time=time()
+    prev_time=time()
+    test_matchlist=getMatchList(nbjoueurs,extended,berger,True)
+    print('        getMatchList execution time : {} ms'.format((time()-prev_time)*1000))
+
+    test_results=[]
+    for i in test_matchlist:
+        test_results.append(choice([i[1],i[2],0]))
+    prev_time=time()
+    getClassement(nbjoueurs,test_matchlist,test_results,kwin,kdraw,klose,True)
+    print('        getClassement execution time : {} ms'.format((time()-prev_time)*1000))
 
 # Exécute getMatchList seulement si le programme est lancé seul (non importé)
 if __name__ == '__main__':
     import sys
-    sys.exit(getMatchList(6,False,False))
+    #sys.exit(getMatchList(6,False,False))
     #sys.exit(getClassement(6,[(1, 1, 6), (1, 2, 5), (1, 3, 4), (2, 1, 5), (2, 6, 4), (2, 2, 3), (3, 1, 4), (3, 5, 3), (3, 6, 2), (4, 1, 3), (4, 4, 2), (4, 5, 6), (5, 1, 2), (5, 3, 6), (5, 4, 5)],[1,5,4,5,6,3,1,3,6,3,4,5,1,6,5],1,0,0,True))
+    sys.exit(SimulateRandom(6))
