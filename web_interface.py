@@ -12,10 +12,12 @@ import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
-from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+import reportlab.lib.styles
+import reportlab.lib.colors
+from reportlab.lib.colors import HexColor
 from copy import deepcopy
 import sqlite3
 import tournament
@@ -140,22 +142,38 @@ def results():
     if debug==True:
         print("Classement_pseudo : {}".format(session['Classement_pseudo']))
 
-    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18)
+    #Création du compte rendu en pdf avec le module reportlab
+    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18,backgroundColor=reportlab.lib.colors.yellow)
 
     Story=[]
 
-    styles=getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
+    styles=reportlab.lib.styles.getSampleStyleSheet()
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Center', alignment=TA_CENTER))
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Premier',textColor=reportlab.lib.colors.red))
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Deuxieme',textColor=reportlab.lib.colors.orange))
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Troisieme',textColor=reportlab.lib.colors.brown))
 
-    titre_pdf="{0} de {1} joueurs".format(session['Type_tournoi'],session['Nbr_player'])
+    localtime = time.localtime(time.time())
+    date=time.strftime('%d-%m-%Y', localtime)
+    heure=time.strftime('%H:%M', localtime)
+
+    titre_pdf="{0} de {1} joueurs le {2} à {3}".format(session['Type_tournoi'],session['Nbr_player'],date,heure)
     ptext = '<font size=12>%s</font>' % titre_pdf
-    Story.append(Paragraph(ptext, styles["Normal"]))
+    Story.append(Paragraph(ptext, styles["Center"]))
 
     Story.append(Spacer(1, 12))
 
     for i in range (0,session['Nbr_player']):
-        ptext = "<font size=12>{0}. {1} avec {2} points.</font>".format(i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1])
-        Story.append(Paragraph(ptext, styles["Normal"]))
+        ptext = "<font size=12>{0}.    {1} avec {2} points.</font>".format(i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1])
+        if i == 0:
+            Story.append(Paragraph(ptext, styles["Premier"]))
+        elif i == 1 :
+            Story.append(Paragraph(ptext, styles["Deuxieme"]))
+        elif i == 2 :
+            Story.append(Paragraph(ptext, styles["Troisieme"]))
+        else:
+            Story.append(Paragraph(ptext, styles["Normal"]))
     print(Story)
     curr_dir=os.getcwd()
     os.chdir(curr_dir+'/static')
