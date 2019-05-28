@@ -2,3 +2,4 @@
 # Doc : https://help.github.com/en/articles/ignoring-files
 __pycache__/
 tournoi.sqlite3
+static/Résultats-tournoi.pdf
