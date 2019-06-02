@@ -73,14 +73,13 @@ def display():
     if debug==True:
         print("Liste des joueurs :\n{}".format(session['Players']))
 
-    if session['Mode_points']=="TOR":
-        session['Pts_draw']=int(request.form['pts_draw'])
-        session['Pts_lose']=int(request.form['pts_lose'])
-        session['Pts_win']=int(request.form['pts_win'])
-        if debug==True:
-            print("Nombre de points par match gagné : {}".format(session['Pts_win']))
-            print("Nombre de points par égalité : {}".format(session['Pts_draw']))
-            print("Nombre de points par match perdu : {}".format(session['Pts_lose']))
+    session['Pts_draw']=int(request.form['pts_draw'])
+    session['Pts_lose']=int(request.form['pts_lose'])
+    session['Pts_win']=int(request.form['pts_win'])
+    if debug==True:
+        print("Nombre de points par match gagné : {}".format(session['Pts_win']))
+        print("Nombre de points par égalité : {}".format(session['Pts_draw']))
+        print("Nombre de points par match perdu : {}".format(session['Pts_lose']))
 
     #On récupère le choix sur la longueur du tournoi et on en fait un booléen
     Extended=request.form['shortcheckbox']
@@ -164,11 +163,7 @@ def results():
             print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
-    if session['Mode_points'] == "TOR":
-        session['Classement_pseudo']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
-    elif session['Mode_points'] == "score":
-        #/!\ À CHANGER DÈS QUE ELIOTT A ADAPTÉ SA FONCTION /!\
-        session['Classement_pseudo']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,5,1,-2,debug_algo)
+    session['Classement_pseudo']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
     for i in range(len(session['Classement_pseudo'])):
         session['Classement_pseudo'][i]=list(session['Classement_pseudo'][i])
     for i in range(len(session['Classement_pseudo'])):
