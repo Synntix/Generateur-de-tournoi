@@ -42,14 +42,13 @@
           <input type="number" min="0" max="128" value="8" step="1" id="nbr_player" name="nbr_player" />
           </br></br>
 
-          <!--Entrée du nombre de points par évènement-->
-          <h5 id="title_nbr_pts" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
-          <label for="pts_win">Points par match gagné :</label>
-          <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
-          <label for="pts_win">Points par égalité :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
-          <label for="pts_win">Points par match perdu :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
+          <!--Choix du mode de calcul des points-->
+          <h5>Choix du mode d'entrée des résultats:</h5>
+          <input type="radio" id="TOR" name="mode_points" value="TOR" />
+          <label for="TOR">Gagné / Perdu</label>
+          </br>
+          <input type="radio" id="score" name="mode_points" value="score" />
+          <label for="score">Score par match</label>
           </br></br>
 
           <!--Bouton d'envoi du formulaire-->

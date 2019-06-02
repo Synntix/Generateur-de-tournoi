@@ -179,3 +179,7 @@ ttsonnberg {
 #classement_table tr:hover {
   background-color: #56565656;
 }
+
+.entry_score_match {
+  width: 30px;
+}

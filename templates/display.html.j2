@@ -43,6 +43,18 @@
           <div id="matchs" class="match{{i+1}}"><b>Match {{i+1}} :</b>    </br>
 
             <form method="post" action="{{ url_for('results') }}">
+              {% if mode_points == "score" %}
+              <!-- Input pour donner le score du j1 -->
+              <label for="j1m{{i+1}}">{{matchlist_pseudo[i][1][0][0]}}</label>
+              <input type="number" name="score_j1_match{{i+1}}" value=0 step="1" class="entry_score_match" id="j1m{{i+1}}" required>
+
+              <!-- Input pour donner le score du j2 -->
+              <input type="number" name="score_j2_match{{i+1}}" value=0 step="1" class="entry_score_match" id="j2m{{i+1}}" required>
+              <label for="j2m{{i+1}}">{{matchlist_pseudo[i][2][0][0]}}</label>
+              {% endif %}
+
+
+              {% if mode_points == "TOR" %}
               <!-- Bouton pour selectionner le joueurs 1 -->
               <input type="radio" name="match{{i+1}}" value={{matchlist[i][1]}} id="j1m{{i}}+1" required>
               <label for="j1m{{i}}+1">{{matchlist_pseudo[i][1][0][0]}}</label>
@@ -53,6 +65,7 @@
               <!-- Bouton pour selectionner le joueurs 2 -->
               <input type="radio" name="match{{i+1}}" value={{matchlist[i][2]}} id="j2m{{i}}+1">
               <label for="j2m{{i}}+1">{{matchlist_pseudo[i][2][0][0]}}</label>
+              {% endif %}
           </div>
 
         {% endfor %}</br></br>
