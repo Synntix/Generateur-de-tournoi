@@ -132,9 +132,9 @@ overline {
 }
 
 .doc_dl {
-  background: #495CFF ;
+  background: #555555 ;
   border: 2px solid grey ;
-  width: 10%;
+  width: 25%;
   border-radius: 3px;
   padding: 5px 5px 5px 5px ;
   text-align: center ;
@@ -143,10 +143,39 @@ overline {
 }
 
 .doc_dl:hover, .doc_dl:focus, .doc_dl:active {
-  background: #5EB6DD ;
+  background: #999999 ;
   text-decoration: underline;
 }
 
 section a {
   text-decoration: none;
+}
+
+ttsonnberg {
+  text-decoration:underline;
+  text-decoration-style: dashed;
+  cursor: help;
+}
+
+#classement_table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+#classement_table td, #classement_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#classement_table tr:nth-child(even){
+  background-color: #44444444;
+}
+
+#classement_table th {
+  background-color: #F07603;
+}
+
+#classement_table tr:hover {
+  background-color: #56565656;
 }

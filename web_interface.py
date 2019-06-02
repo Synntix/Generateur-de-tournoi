@@ -143,7 +143,7 @@ def results():
         print("Classement_pseudo : {}".format(session['Classement_pseudo']))
 
     #Création du compte rendu en pdf avec le module reportlab
-    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18,backgroundColor=reportlab.lib.colors.yellow)
+    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18,BackColor=reportlab.lib.colors.yellow)
 
     Story=[]
 
@@ -174,6 +174,7 @@ def results():
             Story.append(Paragraph(ptext, styles["Troisieme"]))
         else:
             Story.append(Paragraph(ptext, styles["Normal"]))
+
     print(Story)
     curr_dir=os.getcwd()
     os.chdir(curr_dir+'/static')

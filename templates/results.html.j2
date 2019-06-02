@@ -30,12 +30,26 @@
 
     <section  class="site-content">
       <!-- Affichage du classement -->
-      {% for i in range(nbr_player) %}
-        <p class="finalplace{{i+1}}">{{i+1}}. {{classement_pseudo[i][0][0][0]}} avec {{classement_pseudo[i][1]}} points.</p>
-      {% endfor %}
+      <table id="classement_table">
+        <tr>
+          <th>Place</th>
+          <th>Pseudo</th>
+          <th>Points</th>
+          <th>Score de départage</th>
+        </tr>
+        {% for i in range(nbr_player) %}
+        <tr>
+          <td class="finalplace{{i+1}}">{{i+1}}</td>
+          <td class="finalplace{{i+1}}">{{classement_pseudo[i][0][0][0]}}</td>
+          <td class="finalplace{{i+1}}">{{classement_pseudo[i][1]}}</td>
+          <td class="finalplace{{i+1}}">{{classement_pseudo[i][2]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
 
-      <br/><br/><br/>
+      <br/><br/>
       <a href="{{url_for('static', filename='Résultats-tournoi.pdf') }}" target="_blank"><div class=doc_dl>Télécharger un compte rendu</div></a>
+      <br/><br/>
     </section>
 
 
