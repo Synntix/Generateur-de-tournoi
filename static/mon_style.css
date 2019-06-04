@@ -211,11 +211,13 @@ ttsonnberg {
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
-  top: 100%;
-  left: 50%;
-  margin-left: -100px;
+  top: -5px;
+  left: 200%;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.green {color:green;}
+.red {color:red;}

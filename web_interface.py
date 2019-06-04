@@ -152,7 +152,7 @@ def results():
                 results.append(session['Matchlist'][i][2])
             elif Score_per_match[i][0]==Score_per_match[i][1]:
                 results.append(0)
-                if debug==True:
+        if debug==True:
                     print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     elif session['Mode_points'] == "TOR":

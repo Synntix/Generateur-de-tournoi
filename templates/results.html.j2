@@ -48,10 +48,30 @@
                   <span class="tooltiptext">
                     {% for j in range(nbr_matchs) %}
                       {% if classement[i][0] == matchlist[j][1] %} <!-- Si le joueur est j1 dans le match -->
-                        <p>{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                        {% if score_per_match[j][0]>score_per_match[j][1] %} <!-- Si le joueur a gagné -->
+                          <p style="color:green;">{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                        {% endif %}
+
+                        {% if score_per_match[j][0]<score_per_match[j][1] %} <!-- Si le joueur a perdu -->
+                          <p style="color:red;">{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                        {% endif %}
+
+                        {% if score_per_match[j][0]==score_per_match[j][1] %} <!-- Si le joueur a fait égalité -->
+                          <p>{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                        {% endif %}
                       {% endif %}
                       {% if classement[i][0] == matchlist[j][2] %} <!-- Si le joueur est j2 dans le match -->
-                        <p>{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                        {% if score_per_match[j][1]>score_per_match[j][0] %} <!-- Si le joueur a gagné -->
+                          <p style="color:green;">{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                        {% endif %}
+
+                        {% if score_per_match[j][1]<score_per_match[j][0] %} <!-- Si le joueur a perdu -->
+                          <p style="color:red;">{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                        {% endif %}
+
+                        {% if score_per_match[j][1]==score_per_match[j][0] %} <!-- Si le joueur a fait égalité -->
+                          <p>{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                        {% endif %}
                       {% endif %}
                     {% endfor %}
                   </span>
