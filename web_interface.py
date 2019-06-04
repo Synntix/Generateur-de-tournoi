@@ -164,6 +164,7 @@ def results():
             print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
+    session['Classement']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
     session['Classement_pseudo']=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
     for i in range(len(session['Classement_pseudo'])):
         session['Classement_pseudo'][i]=list(session['Classement_pseudo'][i])
@@ -212,7 +213,7 @@ def results():
     os.chdir(curr_dir)
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'])
+    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement=session['Classement'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], matchlist=session['Matchlist'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'])
 
 
 

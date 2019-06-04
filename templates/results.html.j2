@@ -38,37 +38,40 @@
           <th>Score de départage</th>
         </tr>
         {% for i in range(nbr_player) %}
-        <tr>
-          <td class="finalplace{{i+1}}">{{i+1}}</td>
+          <tr>
+            <td class="finalplace{{i+1}}">{{i+1}}</td>
 
-          {% if mode_points == "score" %}
-          <td class="finalplace{{i+1}}">
-            <div class="tooltip">{{classement_pseudo[i][0][0][0]}}
-              <span class="tooltiptext">
-                {% for j in range(nbr_matchs) %}
-                  {% if classement_pseudo[i][0][0][0] == matchlist_pseudo[j][1][0][0] %}
-                    <p>{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
-                  {% endif %}
-                  {% if classement_pseudo[i][0][0][0] == matchlist_pseudo[j][2][0][0] %}
-                    <p>{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
-                  {% endif %}
-                {% endfor %}
-              </span>
-            </div>
-          </td>
-          {% endif %}
+            <!-- Affichage de l'historique des matchs si on est en mode score -->
+            {% if mode_points == "score" %}
+              <td class="finalplace{{i+1}}">
+                <div class="tooltip">{{classement_pseudo[i][0][0][0]}} <!-- Pseudo du joueur -->
+                  <span class="tooltiptext">
+                    {% for j in range(nbr_matchs) %}
+                      {% if classement[i][0] == matchlist[j][1] %} <!-- Si le joueur est j1 dans le match -->
+                        <p>{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                      {% endif %}
+                      {% if classement[i][0] == matchlist[j][2] %} <!-- Si le joueur est j2 dans le match -->
+                        <p>{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                      {% endif %}
+                    {% endfor %}
+                  </span>
+                </div>
+              </td>
+            {% endif %}
 
-          {% if mode_points == "TOR" %}
-            <td class="finalplace{{i+1}}">{{classement_pseudo[i][0][0][0]}}</td>
-          {% endif %}
-          
-          <td class="finalplace{{i+1}}">{{classement_pseudo[i][1]}}</td>
+            <!-- Affiche simplement le pseudo si on est en mode TOR -->
+            {% if mode_points == "TOR" %}
+              <td class="finalplace{{i+1}}">{{classement_pseudo[i][0][0][0]}}</td> <!-- Pseudo du joueur -->
+            {% endif %}
 
-          <td class="finalplace{{i+1}}">{{classement_pseudo[i][2]}}</td>
+            <td class="finalplace{{i+1}}">{{classement_pseudo[i][1]}}</td> <!-- Points du joueur -->
 
-        </tr>
+            <td class="finalplace{{i+1}}">{{classement_pseudo[i][2]}}</td> <!-- Score de départage du joueur -->
+
+          </tr>
         {% endfor %}
       </table>
+
 
       <br/><br/>
       <a href="{{url_for('static', filename='Résultats-tournoi.pdf') }}" target="_blank"><div class=doc_dl>Télécharger un compte rendu</div></a>
