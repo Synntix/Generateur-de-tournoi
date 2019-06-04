@@ -115,41 +115,42 @@ def display():
 
     #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
     #Matchlist_pseudo est de la forme [(numéro_round,pseudo_j1,pseudo_j2),...]
-    Matchlist_pseudo=deepcopy(Matchlist)
-    for i in range(len(Matchlist_pseudo)):
-        Matchlist_pseudo[i]=list(Matchlist_pseudo[i])
-    for i in Matchlist_pseudo:
+    session['Matchlist_pseudo']=deepcopy(session['Matchlist'])
+    for i in range(len(session['Matchlist_pseudo'])):
+        session['Matchlist_pseudo'][i]=list(session['Matchlist_pseudo'][i])
+    for i in session['Matchlist_pseudo']:
         i[1]=tournoi_DB.getPseudo(i[1])
         i[2]=tournoi_DB.getPseudo(i[2])
     if debug==True:
-        print("Liste des matchs par pseudo : \n{}".format(Matchlist_pseudo))
+        print("Liste des matchs par pseudo : \n{}".format(session['Matchlist_pseudo']))
 
     #On utilise le template display.html
-    return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=Matchlist_pseudo, nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
+    return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
 
 
 
 
 @app.route('/results/', methods=['POST'])
 def results():
+    Score_per_match=[]
     if session['Mode_points'] == "score":
-        #score_per_match est de la forme [(score j1 match1,score j2 match1),(score j1 match2,score j2 match2),...]
-        score_per_match=[]
+        #Score_per_match est de la forme [(score j1 match1,score j2 match1),(score j1 match2,score j2 match2),...]
+
         for i in range(1,session['Nbr_matchs']+1) :
-            #On récupère le score du match pour le mettre dans la liste score_per_match
+            #On récupère le score du match pour le mettre dans la liste Score_per_match
             tuple_score=(request.form['score_j1_match{}'.format(i)]),(request.form['score_j2_match{}'.format(i)])
-            score_per_match.append(tuple_score)
+            Score_per_match.append(tuple_score)
             if debug==True:
-                print("Liste des scores : \n{}".format(score_per_match))
+                print("Liste des scores : \n{}".format(Score_per_match))
 
         results=[]
         for i in range(session['Nbr_matchs']) :
             #On compare les scores des joueurs pour déduire qui a gagné pour le mettre dans la liste results
-            if score_per_match[i][0]>score_per_match[i][1]:
+            if Score_per_match[i][0]>Score_per_match[i][1]:
                 results.append(session['Matchlist'][i][1])
-            elif score_per_match[i][0]<score_per_match[i][1]:
+            elif Score_per_match[i][0]<Score_per_match[i][1]:
                 results.append(session['Matchlist'][i][2])
-            elif score_per_match[i][0]==score_per_match[i][1]:
+            elif Score_per_match[i][0]==Score_per_match[i][1]:
                 results.append(0)
                 if debug==True:
                     print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
@@ -211,7 +212,7 @@ def results():
     os.chdir(curr_dir)
 
     #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=session['Classement_pseudo'])
+    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'])
 
 
 

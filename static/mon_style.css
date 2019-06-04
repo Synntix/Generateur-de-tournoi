@@ -74,20 +74,23 @@ header div {
 }
 
 .finalplace1 {
-  font-size: 35px;
+  font-size: 35px !important;
   color: red;
+  text-decoration-color: red;
   margin-bottom: 15px;
 }
 
 .finalplace2 {
-  font-size: 30px;
+  font-size: 30px !important;
   color: orange;
+  text-decoration-color: orange;
   margin-bottom: 10px;
 }
 
 .finalplace3 {
-  font-size: 25px;
+  font-size: 25px !important;
   color: #614E1A;
+  text-decoration-color: #614E1A;
   margin-bottom: 10px;
 }
 
@@ -180,6 +183,38 @@ ttsonnberg {
   background-color: #56565656;
 }
 
+#classement_table tr {
+  font-size: 20px;
+}
+
 .entry_score_match {
   width: 30px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dashed;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  font-size: 15px;
+  width: 200px;
+  background-color: #DDDDDD;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -100px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

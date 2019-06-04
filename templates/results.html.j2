@@ -40,9 +40,32 @@
         {% for i in range(nbr_player) %}
         <tr>
           <td class="finalplace{{i+1}}">{{i+1}}</td>
-          <td class="finalplace{{i+1}}">{{classement_pseudo[i][0][0][0]}}</td>
+
+          {% if mode_points == "score" %}
+          <td class="finalplace{{i+1}}">
+            <div class="tooltip">{{classement_pseudo[i][0][0][0]}}
+              <span class="tooltiptext">
+                {% for j in range(nbr_matchs) %}
+                  {% if classement_pseudo[i][0][0][0] == matchlist_pseudo[j][1][0][0] %}
+                    <p>{{matchlist_pseudo[j][1][0][0]}} {{score_per_match[j][0]}}-{{score_per_match[j][1]}} {{matchlist_pseudo[j][2][0][0]}}</p></br>
+                  {% endif %}
+                  {% if classement_pseudo[i][0][0][0] == matchlist_pseudo[j][2][0][0] %}
+                    <p>{{matchlist_pseudo[j][2][0][0]}} {{score_per_match[j][1]}}-{{score_per_match[j][0]}} {{matchlist_pseudo[j][1][0][0]}}</p></br>
+                  {% endif %}
+                {% endfor %}
+              </span>
+            </div>
+          </td>
+          {% endif %}
+
+          {% if mode_points == "TOR" %}
+            <td class="finalplace{{i+1}}">{{classement_pseudo[i][0][0][0]}}</td>
+          {% endif %}
+          
           <td class="finalplace{{i+1}}">{{classement_pseudo[i][1]}}</td>
+
           <td class="finalplace{{i+1}}">{{classement_pseudo[i][2]}}</td>
+
         </tr>
         {% endfor %}
       </table>
