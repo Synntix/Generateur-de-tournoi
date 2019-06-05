@@ -32,32 +32,38 @@
       <form method="post" action="{{ url_for('display') }}">
         <!--Entrée des pseudos-->
         <h5>Pseudo de chaque participant</h5>
-        {% for i in range(1,nbr_player+1) %}
-          <label for=pseudo{{i}}>Pseudo du joueur {{ i }} : </label>
-          <input class="inputpseudo" type="text" name=pseudo{{i}} required minlength="0" maxlength="20" size="10"><br/>
-        {% endfor %}
-        </br></br>
+        <div id="grid-pseudo">
+          {% for i in range(1,nbr_player+1) %}
+            <label for=pseudo{{i}} class="labelpseudo">Pseudo du joueur {{ i }} : </label>
+            <input class="inputpseudo" type="text" name=pseudo{{i}} required minlength="0" maxlength="20" size="10"><br/>
+          {% endfor %}
+        </div>
+        </br>
 
         <!--Entrée du nombre de points par évènement-->
         {% if mode_points == "TOR" %}
           <h5 id="title_nbr_pts" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
-          <label for="pts_win">Points par match gagné :</label>
-          <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
-          <label for="pts_win">Points par égalité :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
-          <label for="pts_win">Points par match perdu :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
-          </br></br>
+            <div id="grid-pts_evenmements">
+              <label for="pts_win">Points par match gagné :</label>
+              <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
+              <label for="pts_win">Points par égalité :</label>
+              <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
+              <label for="pts_win">Points par match perdu :</label>
+              <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
+            </div>
+            </br>
         {% endif %}
         {% if mode_points == "score" %}
           <h5 id="title_nbr_pts" title="Après chaque match, les joueurs gagnent les points marqués pendant ce match, auxquels s'ajoute éventuellement un bonus selon l'issue du match. Un bonus négatif (malus) ou nul (ignorer) est possible.">Bonus par évènement:</h5>
-          <label for="pts_win">Bonus par match gagné :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_win" name="pts_win" /></br>
-          <label for="pts_win">Bonus par égalité :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
-          <label for="pts_win">Bonus par match perdu :</label>
-          <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
-          </br></br>
+            <div id="grid-pts_evenmements">
+              <label for="pts_win">Bonus par match gagné :</label>
+              <input type="number" min="-10" max="10" value="0" step="1" id="pts_win" name="pts_win" /></br>
+              <label for="pts_win">Bonus par égalité :</label>
+              <input type="number" min="-10" max="10" value="0" step="1" id="pts_draw" name="pts_draw" /></br>
+              <label for="pts_win">Bonus par match perdu :</label>
+              <input type="number" min="-10" max="10" value="0" step="1" id="pts_lose" name="pts_lose" /></br>
+            </div>
+            </br>
         {% endif %}
 
 
@@ -66,6 +72,12 @@
         <input type="checkbox" name="shortcheckbox" id='checkshort' value=0>
         <label for="checkshort">Tournoi allongé </label>
         <input id='testNameHidden' type='hidden' value=1 name='shortcheckbox'>
+        </br>
+
+        <!-- Choix de la méthode de rencontre -->
+        <input type="checkbox" id="Berger" name="methode_rencontre" value="Force_berger" />
+        <label for="Berger">Forcer méthode de Berger</label>
+        <input id='Ruban' type='hidden' value=False name='methode_rencontre'>
         </br>
 
         <!--Choix des matchs barages ou non-->

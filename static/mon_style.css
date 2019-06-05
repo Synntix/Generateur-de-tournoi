@@ -65,14 +65,6 @@ header div {
   color:orange;
 }
 
-#pts_draw {
-  margin-left: 48px;
-}
-
-#pts_lose {
-  margin-left: 4px;
-}
-
 .finalplace1 {
   font-size: 35px !important;
   color: red;
@@ -221,3 +213,36 @@ ttsonnberg {
 
 .green {color:green;}
 .red {color:red;}
+
+h5 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+#grid-pseudo {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 17%;
+}
+
+#grid-pseudo .labelpseudo {
+  grid-column: 1;
+}
+
+#grid-pseudo .inputpseudo {
+  grid-column: 2;
+}
+
+#grid-pts_evenmements {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 25%;
+}
+
+#grid-pts_evenmements label {
+  grid-column: 1;
+}
+
+#grid-pts_evenmements input {
+  grid-column: 2;
+}

@@ -56,6 +56,7 @@ def player_entry():
     if debug==True:
         print("Nombre de joueurs : {}".format(session['Nbr_player']))
         print("Type de tournoi : {}".format(session['Type_tournoi']))
+        print("Mode points : {}".format(session['Mode_points']))
 
     #On utilise le template page2.html
     return render_template('page2.html.j2' , nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], mode_points=session['Mode_points'])
@@ -99,9 +100,16 @@ def display():
     if debug==True:
         print("Barrages = {}".format(Barrages))
 
+    #On fait de le méthode de rencontre un booléen
+    session['Methode_rencontre']=request.form['methode_rencontre']
+    if session['Methode_rencontre'] == 'Force_berger':
+        session['Methode_rencontre'] = True
+    else:
+        session['Methode_rencontre'] = False
+
     #On récupère la liste des matchs
     #Matchlist est de la forme [(numéro_round,id_j1,id_j2),...]
-    Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,False,debug_algo)
+    Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,session['Methode_rencontre'],debug_algo)
     session['Matchlist']=Matchlist
     if debug==True:
         print("Liste des matchs par ID :\n{}".format(Matchlist))
