@@ -222,7 +222,7 @@ h5 {
 #grid-pseudo {
   display: grid;
   grid-template-columns: auto auto;
-  width: 17%;
+  width: 250px;
 }
 
 #grid-pseudo .labelpseudo {
@@ -236,7 +236,7 @@ h5 {
 #grid-pts_evenmements {
   display: grid;
   grid-template-columns: 50% 50%;
-  width: 25%;
+  width: 380px;
 }
 
 #grid-pts_evenmements label {
