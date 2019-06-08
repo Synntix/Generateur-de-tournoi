@@ -12,7 +12,7 @@ def getMatchList(n,extended=False,Berger=False,debug_algo=False): # Fonction pri
     else:
         Bye=False
     if debug:
-        print("#A# Nb joueurs = {} \n#A# Bye = {}".format(n,Bye))
+        print("#A# Nb joueurs = {} \n#A# Bye = {}\n#A# Extended = {}".format(n,Bye,extended))
     if Berger==True: # choix méhode Berger ou ruban
         if extended==True: # Ajout liste inversée si besoin
             return methodeBerger(n)+reverseMatchlist(n)
@@ -111,11 +111,14 @@ def getClassement(n,matchlist,results,scoremode=False,kw=1,kd=0,kl=0,debug=False
         print("#A# Liste des matchs :\n",matchlist)
         if scoremode:
             print("#A# Mode : Scores")
+            #for i in range (nbMatchs):
+
         else:
             print("#A# Mode : Tout Ou Rien")
+            #for i in range (nbMatchs):
+                #print("Ronde {} - Match {}\n                    {} VS {}\n         Résultat : {} gagne".format(matchlist[i][0],i+1,matchlist[i][1],matchlist[i][2],results[i]))
         print("#A# Résultats :\n",results)
-        for i in range (nbMatchs):
-            print("Ronde {} - Match {}\n                    {} VS {}\n         Résultat : {} à  {}".format(matchlist[i][0],i+1,matchlist[i][1],matchlist[i][2],results[i][0],results[i][1]))
+
         print("#A# Calcul score pour {} matchs".format(nbMatchs))
     win=[[] for i in range(n)]
     draw=deepcopy(win)
@@ -130,16 +133,23 @@ def getClassement(n,matchlist,results,scoremode=False,kw=1,kd=0,kl=0,debug=False
             if scorej1>scorej2:
                 winner=matchlist[i][1]
                 loser=matchlist[i][2]
+                if debug:
+                    print("Ronde {} - Match n°{}\n           Joueurs :   {} VS {}\n            Points :   {} || {}\n     Issue (bonus) : V({})||D({})\n".format(matchlist[i][0],i+1,matchlist[i][1],matchlist[i][2],results[i][0],results[i][1],kw,kl))
             elif scorej1<scorej2:
                 winner=matchlist[i][2]
                 loser=matchlist[i][1]
+                if debug:
+                    print("Ronde {} - Match n°{}\n           Joueurs :   {} VS {}\n            Points :   {} || {}\n     Issue (bonus) : D({})||V({})\n".format(matchlist[i][0],i+1,matchlist[i][1],matchlist[i][2],results[i][0],results[i][1],kl,kw))
             else:
                 draw[matchlist[i][1]-1].append(matchlist[i][2]) # pas de perdant, les deux vont dans la liste d'égalités de l'autre
                 draw[matchlist[i][2]-1].append(matchlist[i][1])
+                if debug:
+                    print("Ronde {} - Match n°{}\n           Joueurs :   {} VS {}\n            Points :   {} || {}\n     Issue (bonus) : E({})||E({})\n".format(matchlist[i][0],i+1,matchlist[i][1],matchlist[i][2],results[i][0],results[i][1],kd,kd))
                 continue
 
             win[winner-1].append(loser)
             lose[loser-1].append(winner)
+
         if debug:
             print("#A# Scores : ",scores)
     else:
@@ -152,10 +162,15 @@ def getClassement(n,matchlist,results,scoremode=False,kw=1,kd=0,kl=0,debug=False
             elif results[i] == 0: # sinon si le gagnant est 0 (égalité)
                 draw[matchlist[i][1]-1].append(matchlist[i][2]) # pas de perdant, les deux vont dans la liste d'égalités de l'autre
                 draw[matchlist[i][2]-1].append(matchlist[i][1])
+                if debug:
+                    print("Ronde {} - Match n°{} : {}\n                         Résultat : {} donc égalité".format(matchlist[i][0],i,matchlist[i],results[i]))
                 continue
         # Ici le gagnant est results[i], le perdant est loser
-        win[results[i]-1].append(loser) # On ajoute le perdant à la liste de victoires du gagnant
-        lose[loser-1].append(results[i]) # On ajoute le gagnant à la liste de défaites du perdant
+            win[results[i]-1].append(loser) # On ajoute le perdant à la liste de victoires du gagnant
+            lose[loser-1].append(results[i]) # On ajoute le gagnant à la liste de défaites du perdant
+            if debug:
+                print("Ronde {} - Match n°{} : {}\n                         Résultat : {} gagne donc {} perd".format(matchlist[i][0],i,matchlist[i],results[i],loser))
+
     if debug:
         print("#A# Liste des victoires :\n",win)
         print("#A# Liste des égalités :\n",draw)
