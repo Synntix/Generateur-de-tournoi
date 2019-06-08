@@ -143,7 +143,6 @@ def results():
     Score_per_match=[]
     if session['Mode_points'] == "score":
         #Score_per_match est de la forme [(score j1 match1,score j2 match1),(score j1 match2,score j2 match2),...]
-        Mode_score=True
         for i in range(1,session['Nbr_matchs']+1) :
             #On récupère le score du match pour le mettre dans la liste Score_per_match
             tuple_score=[int(request.form['score_j1_match{}'.format(i)]),int(request.form['score_j2_match{}'.format(i)])]
@@ -164,7 +163,6 @@ def results():
                     print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     elif session['Mode_points'] == "TOR":
-        Mode_score=False
         results=[]
         for i in range(1,session['Nbr_matchs']+1) :
             #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
@@ -173,7 +171,11 @@ def results():
             print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
-    Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],Score_per_match,Mode_score,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
+    if session['Mode_points'] == "score":
+        Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],Score_per_match,True,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
+    elif session['Mode_points'] == "TOR":
+        Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,False,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
+
     session['Classement']=Classement
     session['Classement_pseudo']=deepcopy(Classement)
     for i in range(len(session['Classement_pseudo'])):
