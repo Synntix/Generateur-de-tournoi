@@ -150,31 +150,31 @@ def results():
             if debug==True:
                 print("Liste des scores : \n{}".format(Score_per_match))
 
-        results=[]
+        Results=[]
         for i in range(session['Nbr_matchs']) :
-            #On compare les scores des joueurs pour déduire qui a gagné pour le mettre dans la liste results
+            #On compare les scores des joueurs pour déduire qui a gagné pour le mettre dans la liste Results
             if Score_per_match[i][0]>Score_per_match[i][1]:
-                results.append(session['Matchlist'][i][1])
+                Results.append(session['Matchlist'][i][1])
             elif Score_per_match[i][0]<Score_per_match[i][1]:
-                results.append(session['Matchlist'][i][2])
+                Results.append(session['Matchlist'][i][2])
             elif Score_per_match[i][0]==Score_per_match[i][1]:
-                results.append(0)
+                Results.append(0)
         if debug==True:
-                    print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
+                    print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(Results))
 
     elif session['Mode_points'] == "TOR":
-        results=[]
+        Results=[]
         for i in range(1,session['Nbr_matchs']+1) :
-            #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste results
-            results.append(int(request.form['match{}'.format(i)]))
+            #On récupère l'id des joueurs qui ont gagné pour les mettre dans la liste Results
+            Results.append(int(request.form['match{}'.format(i)]))
         if debug==True:
-            print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(results))
+            print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(Results))
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
     if session['Mode_points'] == "score":
         Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],Score_per_match,True,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
     elif session['Mode_points'] == "TOR":
-        Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],results,False,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
+        Classement=tournament.getClassement(session['Nbr_player'],session['Matchlist'],Results,False,session['Pts_win'],session['Pts_draw'],session['Pts_lose'],debug_algo)
 
     session['Classement']=Classement
     session['Classement_pseudo']=deepcopy(Classement)
@@ -224,8 +224,8 @@ def results():
     doc.build(Story)
     os.chdir(curr_dir)
 
-    #On utilise le template results.html
-    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement=session['Classement'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], matchlist=session['Matchlist'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'])
+    #On utilise le template Results.html
+    return render_template('Results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement=session['Classement'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], matchlist=session['Matchlist'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'], results=Results)
 
 
 
