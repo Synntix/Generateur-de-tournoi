@@ -3,6 +3,7 @@
 ## Prérequis :
     - Python v3.X.X
     - Module Flask
+    - Module Reportlab
 ---------------
 ## Lancement :
 - Sur **Windows** : Clic droit sur *web_interface.py* > Ouvrir avec > Python
@@ -16,4 +17,3 @@ Une fois *web_interface.py* lancé, ouvrez votre navigateur et allez à http://l
 ## À venir :
 - Disponibilité des matchs barrages
 - Ajout de formats de simple et double élimination
-- Possibilité d’indiquer le score à l’issue de chaque match
