@@ -14,9 +14,9 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 import reportlab.lib.styles
-import reportlab.lib.colors
+from reportlab.lib import colors
 from reportlab.lib.colors import HexColor
 from copy import deepcopy
 import sqlite3
@@ -186,39 +186,45 @@ def results():
         print("Classement_pseudo : {}".format(session['Classement_pseudo']))
 
     #Création du compte rendu en pdf avec le module reportlab
-    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18,BackColor=reportlab.lib.colors.yellow)
+    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18)
 
     Story=[]
 
+    #Mise en place du style des paragraphes
     styles=reportlab.lib.styles.getSampleStyleSheet()
     styles.add(reportlab.lib.styles.ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
     styles.add(reportlab.lib.styles.ParagraphStyle(name='Center', alignment=TA_CENTER))
-    styles.add(reportlab.lib.styles.ParagraphStyle(name='Premier',textColor=reportlab.lib.colors.red))
-    styles.add(reportlab.lib.styles.ParagraphStyle(name='Deuxieme',textColor=reportlab.lib.colors.orange))
-    styles.add(reportlab.lib.styles.ParagraphStyle(name='Troisieme',textColor=reportlab.lib.colors.brown))
 
+    #Mise en place des variables temporelles
     localtime = time.localtime(time.time())
     date=time.strftime('%d-%m-%Y', localtime)
     heure=time.strftime('%H:%M', localtime)
 
+    #Paragraphe titre
     titre_pdf="{0} de {1} joueurs le {2} à {3}".format(session['Type_tournoi'],session['Nbr_player'],date,heure)
-    ptext = '<font size=12>%s</font>' % titre_pdf
+    ptext = '<font size=12>{}</font>'.format(titre_pdf)
     Story.append(Paragraph(ptext, styles["Center"]))
 
-    Story.append(Spacer(1, 12))
+    Story.append(Spacer(1, 50))
 
-    for i in range (0,session['Nbr_player']):
-        ptext = "<font size=12>{0}.    {1} avec {2} points.</font>".format(i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1])
-        if i == 0:
-            Story.append(Paragraph(ptext, styles["Premier"]))
-        elif i == 1 :
-            Story.append(Paragraph(ptext, styles["Deuxieme"]))
-        elif i == 2 :
-            Story.append(Paragraph(ptext, styles["Troisieme"]))
-        else:
-            Story.append(Paragraph(ptext, styles["Normal"]))
+    #Création du tableau
+    table_data= [['Place', 'Pseudo', 'Points', 'Score de départage'],]
+    for i in range (session['Nbr_player']):
+        table_data.append([i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1],session['Classement_pseudo'][i][2]])
+    table=Table(table_data)
+    #Édition du style du tableau
+    table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
+                        ('BACKGROUND',(0,0),(-1,0),colors.orange),
+                        ('BACKGROUND',(0,1),(-1,-1),HexColor("#1A1A1A")),
+                        ('TEXTCOLOR',(0,1),(-1,1),colors.gold),
+                        ('TEXTCOLOR',(0,2),(-1,2),colors.silver),
+                        ('TEXTCOLOR',(0,3),(-1,3),colors.brown),
+                        ('TEXTCOLOR',(0,4),(-1,-1),colors.white),
+                        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                        ('BOX', (0,0), (-1,-1), 0.25, colors.black)])),
 
-    print(Story)
+    Story.append(table)
+
     curr_dir=os.getcwd()
     os.chdir(curr_dir+'/static')
     doc.build(Story)
