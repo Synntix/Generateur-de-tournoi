@@ -85,16 +85,15 @@ def createTables():
         round INTEGER,
         joueur1 INTEGER,
         joueur2 INTEGER,
+        score_j1 INTEGER,
+        score_j2 INTEGER,
         vainqueur INTEGER);''')
 
 
-def createPlayers(pPlayers):
+def createPlayers(Players_list):
 
-    tuplePlayers = []
-    for i in range(len(pPlayers)):
-        tuplePlayers.append((pPlayers[i],))
-
-    curseur.executemany('INSERT INTO joueurs (pseudo) VALUES (?)', tuplePlayers)
+    for Pseudo in Players_list:
+        curseur.execute("INSERT INTO joueurs (pseudo) VALUES ('{}')".format(Pseudo))
 
     connexion.commit()
 
