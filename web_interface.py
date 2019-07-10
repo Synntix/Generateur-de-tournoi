@@ -210,8 +210,8 @@ def results():
     #Création du tableau
     table_data= [['Place', 'Pseudo', 'Points', 'Score de départage'],]
     for i in range (session['Nbr_player']):
-        table_data.append([i+1,session['Classement_pseudo'][i][0][0][0],session['Classement_pseudo'][i][1],session['Classement_pseudo'][i][2]])
-    table=Table(table_data)
+        table_data.append([i+1,session['Classement_pseudo'][i][0],session['Classement_pseudo'][i][1],session['Classement_pseudo'][i][2]])
+    table=Table(table_data, colWidths=[50*mm])
     #Édition du style du tableau
     table.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
                         ('BACKGROUND',(0,0),(-1,0),colors.orange),
@@ -225,6 +225,7 @@ def results():
 
     Story.append(table)
 
+    #On se déplace dans /static pour enregistrer le pdf puis on revient au répertoir initial
     curr_dir=os.getcwd()
     os.chdir(curr_dir+'/static')
     doc.build(Story)
