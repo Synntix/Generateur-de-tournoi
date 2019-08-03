@@ -42,7 +42,7 @@
 
         <!--Entrée du nombre de points par évènement-->
         {% if mode_points == "TOR" %}
-          <h5 id="title_nbr_pts" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
+          <h5 id="title_nbr_pts_tor" title="Vous pouvez paramétrer le nombre de points gagnés par victoire, défaite ou égalité afin d'augmenter ou de diminuer l'impact de chaque évènement sur le score du joueur. Une valeur négative retire des points.">Nombre de points par évènement:</h5>
             <div id="grid-pts_evenmements">
               <label for="pts_win">Points par match gagné :</label>
               <input type="number" min="-10" max="10" value="1" step="1" id="pts_win" name="pts_win" /></br>
@@ -54,7 +54,7 @@
             </br>
         {% endif %}
         {% if mode_points == "score" %}
-          <h5 id="title_nbr_pts" title="Après chaque match, les joueurs gagnent les points marqués pendant ce match, auxquels s'ajoute éventuellement un bonus selon l'issue du match. Un bonus négatif (malus) ou nul (ignorer) est possible.">Bonus par évènement:</h5>
+          <h5 id="title_nbr_pts_score" title="Après chaque match, les joueurs gagnent les points marqués pendant ce match, auxquels s'ajoute éventuellement un bonus selon l'issue du match. Un bonus négatif (malus) ou nul (ignorer) est possible.">Bonus par évènement:</h5>
             <div id="grid-pts_evenmements">
               <label for="pts_win">Bonus par match gagné :</label>
               <input type="number" min="-10" max="10" value="0" step="1" id="pts_win" name="pts_win" /></br>

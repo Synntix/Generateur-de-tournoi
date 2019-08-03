@@ -118,11 +118,17 @@ overline {
   margin-bottom: 10px;
 }
 
-#title_nbr_pts {
+#title_nbr_pts_score {
   text-decoration-style:dashed;
+  width: 250px;
 }
 
-#title_nbr_pts:hover {
+#title_nbr_pts_tor {
+  text-decoration-style:dashed;
+  width: 350px;
+}
+
+#title_nbr_pts_score:hover, #title_nbr_pts_tor:hover {
   cursor: help;
 }
 
@@ -221,7 +227,7 @@ h5 {
 
 #grid-pseudo {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 160px auto;
   width: 250px;
 }
 

@@ -232,7 +232,7 @@ def results():
     os.chdir(curr_dir)
 
     #On utilise le template Results.html
-    return render_template('Results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement=session['Classement'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], matchlist=session['Matchlist'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'], results=Results)
+    return render_template('results.html.j2', nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], classement=session['Classement'], classement_pseudo=session['Classement_pseudo'], matchlist_pseudo=session['Matchlist_pseudo'], matchlist=session['Matchlist'], nbr_matchs=session['Nbr_matchs'], score_per_match=Score_per_match, mode_points=session['Mode_points'], results=Results)
 
 
 
