@@ -56,13 +56,32 @@ header div {
 
 #matchs {
   height: 70px;
-  width: 300px;
+  width: 400px;
   background-color: #2A2A2A ;
   border-radius: 4px;
   margin-top: 15px;
   border: solid white 2px;
   text-align: center;
   color:orange;
+}
+
+.match_grid {
+  margin-top: 5px;
+  width: 400px;
+}
+
+.match_grid tr td {
+  width: 200px;
+}
+
+.j1_input {
+  display: inline;
+  float:right;
+}
+
+.j2_input {
+  display: inline;
+  float: left;
 }
 
 .finalplace1 {
