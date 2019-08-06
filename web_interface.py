@@ -188,6 +188,7 @@ def results():
     #Création du compte rendu en pdf avec le module reportlab
     doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18)
 
+    #Les éléments ajoutés à Story (Paragraphe, tableau ...) seront écrits sur la page PDF du haut vers le bas
     Story=[]
 
     #Mise en place du style des paragraphes
