@@ -61,25 +61,6 @@
 
     <footer>
       <a id="txt_data" href="{{ url_for('donnees') }}">Informations sur les données collectées</a>
-
-      <script type="text/python">
-        from browser import document
-
-        element = document["body"]
-
-        def change_theme(event):
-          element.style.backgroundColor = "#1A1A1A" if element.style.backgroundColor == "white" else "white"
-          element.style.color = "white" if element.style.color == "black" else "black"
-          document["txt_data"].style.color = "#bbbbbb" if document["txt_data"].style.color == "black" else "black"
-
-        document["switch_theme"].bind("click", change_theme)
-      </script>
-      <label class="switch">
-        <input id="switch_theme" type="checkbox">
-        <span class="slider round"></span>
-      </label>
-      <p class="text_switch">Changez de thème !</p>
-
     </footer>
 
 
