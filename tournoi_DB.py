@@ -101,6 +101,20 @@ def creatematch(listmatch):
     curseur.executemany('INSERT INTO match (round,joueur1,joueur2) VALUES (?,?,?)',listmatch)
     connexion.commit()
 
+def insertScore(Score_per_match):
+    connexion = sqlite3.connect("tournoi.sqlite3", check_same_thread=False)
+    curseur = connexion.cursor()
+    for i in range(0,len(Score_per_match)) :
+        curseur.execute('UPDATE match SET score_j1={0},score_j2={1} WHERE id={2}'.format(Score_per_match[i][0],Score_per_match[i][1],i+1))
+    connexion.commit()
+
+def insertWinner(Results_pseudo):
+    connexion = sqlite3.connect("tournoi.sqlite3", check_same_thread=False)
+    curseur = connexion.cursor()
+    for i in range(0,len(Results_pseudo)) :
+        curseur.execute("UPDATE match SET vainqueur='{}' WHERE id={}".format(Results_pseudo[i],i+1))
+    connexion.commit()
+
 ##def createVictoire(vainq):
     ##curseur.executemany('INSERT INTO match (vainqueur) VALUES (?)',vainq)
     ##connexion.commit()
