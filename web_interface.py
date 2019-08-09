@@ -120,7 +120,6 @@ def display():
     tournoi_DB.createTables()
     #On donne la liste des joueurs à la base de donnée
     tournoi_DB.createPlayers(session['Players'])
-    tournoi_DB.creatematch(session['Matchlist_pseudo'])
 
     #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
     #Matchlist_pseudo est de la forme [(numéro_round,pseudo_j1,pseudo_j2),...]
@@ -132,7 +131,7 @@ def display():
         i[2]=tournoi_DB.getPseudo(i[2])
     if debug==True:
         print("Liste des matchs par pseudo : \n{}".format(session['Matchlist_pseudo']))
-
+    tournoi_DB.creatematch(session['Matchlist_pseudo'])
     #On utilise le template display.html
     return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
 
