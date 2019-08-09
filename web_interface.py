@@ -131,6 +131,7 @@ def display():
         i[2]=tournoi_DB.getPseudo(i[2])
     if debug==True:
         print("Liste des matchs par pseudo : \n{}".format(session['Matchlist_pseudo']))
+    #On donne la liste des matchs à la DB
     tournoi_DB.creatematch(session['Matchlist_pseudo'])
     #On utilise le template display.html
     return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
@@ -147,6 +148,7 @@ def results():
             #On récupère le score du match pour le mettre dans la liste Score_per_match
             tuple_score=(int(request.form['score_j1_match{}'.format(i)])),(int(request.form['score_j2_match{}'.format(i)]))
             Score_per_match.append(tuple_score)
+        #On donne les scores à la DB
         tournoi_DB.insertScore(Score_per_match)
         if debug==True:
             print("Liste des scores : \n{}".format(Score_per_match))
@@ -164,7 +166,11 @@ def results():
                     print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(Results))
         Results_pseudo=[]
         for i in Results:
-            Results_pseudo.append(tournoi_DB.getPseudo(i))
+            if i == 0:
+                Results_pseudo.append("Égalité")
+            else:
+                Results_pseudo.append(tournoi_DB.getPseudo(i))
+        #On donne les gagnants à la DB
         tournoi_DB.insertWinner(Results_pseudo)
 
     elif session['Mode_points'] == "TOR":
@@ -176,7 +182,11 @@ def results():
             print("Liste des IDs des gagnants (0 = égalité) : \n{}".format(Results))
         Results_pseudo=[]
         for i in Results:
-            Results_pseudo.append(tournoi_DB.getPseudo(i))
+            if i == 0:
+                Results_pseudo.append("Égalité")
+            else:
+                Results_pseudo.append(tournoi_DB.getPseudo(i))
+        #On donne les gagnants à la DB
         tournoi_DB.insertWinner(Results_pseudo)
 
     #On récupère le classement et le convertit en classement_pseudo qui contient les pseudos
