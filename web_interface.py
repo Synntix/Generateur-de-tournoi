@@ -12,7 +12,7 @@ import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import mm
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 import reportlab.lib.styles
@@ -205,7 +205,7 @@ def results():
         print("Classement_pseudo : {}".format(session['Classement_pseudo']))
 
     #Création du compte rendu en pdf avec le module reportlab
-    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=60,leftMargin=60,topMargin=60,bottomMargin=18)
+    doc = SimpleDocTemplate("Résultats-tournoi.pdf",pagesize=letter,rightMargin=10,leftMargin=10,topMargin=60,bottomMargin=18)
 
     #Les éléments ajoutés à Story (Paragraphe, tableau ...) seront écrits sur la page PDF du haut vers le bas
     Story=[]
@@ -214,6 +214,7 @@ def results():
     styles=reportlab.lib.styles.getSampleStyleSheet()
     styles.add(reportlab.lib.styles.ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
     styles.add(reportlab.lib.styles.ParagraphStyle(name='Center', alignment=TA_CENTER))
+    styles.add(reportlab.lib.styles.ParagraphStyle(name='Left', alignment=TA_LEFT))
 
     #Mise en place des variables temporelles
     localtime = time.localtime(time.time())
@@ -244,6 +245,37 @@ def results():
                         ('BOX', (0,0), (-1,-1), 0.25, colors.black)])),
 
     Story.append(table)
+
+    Story.append(Spacer(1, 50))
+
+    #Paragraphe qui annonce le tableau récapitulatif
+    Story.append(Paragraph('<font size=12><u>Récapitulatif des matchs :</u></font>', styles["Left"]))
+    Story.append(Spacer(1, 10))
+
+    #On récupère les information des matchs
+    connexion = sqlite3.connect("tournoi.sqlite3", check_same_thread=False)
+    curseur = connexion.cursor()
+    recap_matchs = curseur.execute('SELECT * FROM match').fetchall()
+
+    #On crée un tableau récapitulatif
+    if session['Mode_points'] == "score":
+        table_recap=[['Numéro match', 'Numéro round', 'Joueur 1', 'Score joueur 1', 'Score joueur 2', 'Joueur 2'],]
+        for i in range (len(session['Matchlist'])):
+            table_recap.append([i+1,recap_matchs[i][1],recap_matchs[i][2],recap_matchs[i][3],recap_matchs[i][4],recap_matchs[i][5]])
+
+    elif session['Mode_points'] == "TOR":
+        table_recap=[['Numéro match', 'Numéro round', 'Joueur 1', 'Joueur 2', 'Vainqueur'],]
+        for i in range (len(session['Matchlist'])):
+            table_recap.append([i+1,recap_matchs[i][1],recap_matchs[i][4],recap_matchs[i][5],recap_matchs[i][6]])
+
+    table2=Table(table_recap, colWidths=[33.5*mm])
+    #Édition du style du tableau
+    table2.setStyle(TableStyle([('ALIGN',(0,0),(-1,-1),'CENTER'),
+                        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                        ('BOX', (0,0), (-1,-1), 0.25, colors.black)])),
+
+    Story.append(table2)
+
 
     #On se déplace dans /static pour enregistrer le pdf puis on revient au répertoir initial
     curr_dir=os.getcwd()

@@ -84,9 +84,9 @@ def createTables():
         id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         round INTEGER,
         joueur1 INTEGER,
-        joueur2 INTEGER,
         score_j1 INTEGER,
         score_j2 INTEGER,
+        joueur2 INTEGER,
         vainqueur INTEGER);''')
 
 

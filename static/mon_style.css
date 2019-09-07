@@ -256,4 +256,5 @@ h5 {
 
 #grid-pts_evenmements input {
   grid-column: 2;
+  width: 40px;
 }
