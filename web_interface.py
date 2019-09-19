@@ -264,9 +264,9 @@ def results():
             table_recap.append([i+1,recap_matchs[i][1],recap_matchs[i][2],recap_matchs[i][3],recap_matchs[i][4],recap_matchs[i][5]])
 
     elif session['Mode_points'] == "TOR":
-        table_recap=[['Numéro match', 'Numéro round', 'Joueur 1', 'Joueur 2', 'Vainqueur'],]
+        table_recap=[['Numéro match', 'Numéro round', 'Joueurs', 'Vainqueur'],]
         for i in range (len(session['Matchlist'])):
-            table_recap.append([i+1,recap_matchs[i][1],recap_matchs[i][4],recap_matchs[i][5],recap_matchs[i][6]])
+            table_recap.append([i+1,recap_matchs[i][1],recap_matchs[i][2] + " vs " + recap_matchs[i][5],recap_matchs[i][6]])
 
     table2=Table(table_recap, colWidths=[33.5*mm])
     #Édition du style du tableau
