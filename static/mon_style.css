@@ -228,6 +228,7 @@ ttsonnberg {
 h5 {
   margin-top: 30px;
   margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 #grid-pseudo {
@@ -257,4 +258,32 @@ h5 {
 #grid-pts_evenmements input {
   grid-column: 2;
   width: 40px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#container .round {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content:space-around;
+  align-items: center;
+  margin-top: 50px;
+}
+
+#container>input {
+  width: 100px;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+aside {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content:space-around;
+  align-items: center;
 }

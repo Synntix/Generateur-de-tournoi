@@ -31,16 +31,23 @@
     <section  class="site-content">
         {% set count = [1] %}
 
+        <form method="post" action="{{ url_for('results') }}">
+        <div id="container">
         {% for i in range(nbr_matchs) %}
 
           <!-- Affichage des rounds -->
           {% if count[0]==matchlist[i][0] %}
+            {% if count[0]!=1 %}
+              </aside>
+              </div>
+            {% endif %}
+            <div class="round">
             <h5>Round {{count[0]}}</h5>
+            <aside class="match_box">
             {% if count.append(count.pop() + 1) %}{% endif %} <!-- On incrémente count de 1 -->
           {% endif %}
 
           <!-- Affichage des matchs -->
-          <form method="post" action="{{ url_for('results') }}">
           <div id="matchs" class="match{{i+1}}"><b>Match {{i+1}} :</b>    </br>
 
               {% if mode_points == "score" %}
@@ -80,11 +87,10 @@
               {% endif %}
           </div>
 
-        {% endfor %}</br></br>
-
+        {% endfor %}
+        </div>
         <!-- Bouton d'envoi du formulaire -->
-        <input value="Continuer" type="submit" />
-        </br></br></br></br>
+      <input value="Continuer" type="submit" />
       </form>
     </section>
 
