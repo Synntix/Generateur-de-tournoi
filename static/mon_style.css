@@ -48,6 +48,7 @@ h5 {
   text-decoration: underline;
   font-size: 20px;
   color:orange;
+  margin: 30px;
 }
 
 header div {
@@ -59,7 +60,7 @@ header div {
   width: 400px;
   background-color: #2A2A2A ;
   border-radius: 4px;
-  margin-top: 15px;
+  margin: 7px;
   border: solid white 2px;
   text-align: center;
   color:orange;
@@ -225,12 +226,6 @@ ttsonnberg {
 .green {color:green;}
 .red {color:red;}
 
-h5 {
-  margin-top: 30px;
-  margin-bottom: 20px;
-  margin-right: 20px;
-}
-
 #grid-pseudo {
   display: grid;
   grid-template-columns: 160px auto;
@@ -268,7 +263,7 @@ h5 {
 
 #container .round {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content:space-around;
   align-items: center;
   margin-top: 50px;
@@ -286,4 +281,5 @@ aside {
   flex-flow: row wrap;
   justify-content:space-around;
   align-items: center;
+  flex-grow: 1;
 }
