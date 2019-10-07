@@ -248,6 +248,7 @@ ttsonnberg {
 
 #grid-pts_evenmements label {
   grid-column: 1;
+  margin-bottom: 5px;
 }
 
 #grid-pts_evenmements input {

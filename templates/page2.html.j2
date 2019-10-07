@@ -35,7 +35,7 @@
         <div id="grid-pseudo">
           {% for i in range(1,nbr_player+1) %}
             <label for=pseudo{{i}} class="labelpseudo">Pseudo du joueur {{ i }} : </label>
-            <input class="inputpseudo" type="text" name=pseudo{{i}} required minlength="0" maxlength="20" size="10"><br/>
+            <input class="inputpseudo" type="text" name=pseudo{{i}} required minlength="0" maxlength="20" size="10" autofocus><br/>
           {% endfor %}
         </div>
         </br>
