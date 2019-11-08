@@ -66,7 +66,7 @@
             </br>
         {% endif %}
 
-
+        {% if type_tournoi == "Ligue" %}
         <h5>Options du tournoi</h5>
         <!--Choix de la longueur du tournoi-->
         <input type="checkbox" name="shortcheckbox" id='checkshort' value=0>
@@ -85,6 +85,7 @@
         <label for="barrages_true"><overline>Matchs barrages</overline>    (Prochainement ...)</label>
         <input id='barrages_Hidden' type='hidden' value=1 name='match_barrages'>
         </br></br>
+        {% endif %}
 
         <!--Bouton d'envoi du formulaire-->
         <input value="Continuer" type="submit" /></br></br>

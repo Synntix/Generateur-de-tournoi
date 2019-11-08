@@ -66,6 +66,11 @@ def player_entry():
 
 @app.route('/display/', methods=['POST'])
 def display():
+
+################################################################################
+#RÉCUPÉRATION DES INPUTS HTML
+################################################################################
+
     #On crée la liste 'Players' et on ajoute tous les pseudo des participants
     session['Players']=[]
     for i in range(1,session['Nbr_player']+1) :
@@ -82,59 +87,77 @@ def display():
         print("Nombre de points par égalité : {}".format(session['Pts_draw']))
         print("Nombre de points par match perdu : {}".format(session['Pts_lose']))
 
-    #On récupère le choix sur la longueur du tournoi et on en fait un booléen
-    Extended=request.form['shortcheckbox']
-    if Extended == "0":
-        Extended=True
-    elif Extended=="1":
-        Extended=False
-    if debug==True:
-        print("Extended = {}".format(Extended))
+#Inputs dédiés à la ligue
+################################################################################
+    if session['Type_tournoi'] == "Ligue" :
+        #On récupère le choix sur la longueur du tournoi et on en fait un booléen
+        Extended=request.form['shortcheckbox']
+        if Extended == "0":
+            Extended=True
+        elif Extended=="1":
+            Extended=False
+        if debug==True:
+            print("Extended = {}".format(Extended))
 
-    #On récupère le choix sur les matchs de barrage et on en fait un booléen
-    Barrages=request.form['match_barrages']
-    if Barrages == "0":
-        Barrages=True
-    elif Barrages=="1":
-        Barrages=False
-    if debug==True:
-        print("Barrages = {}".format(Barrages))
+        #On récupère le choix sur les matchs de barrage et on en fait un booléen
+        Barrages=request.form['match_barrages']
+        if Barrages == "0":
+            Barrages=True
+        elif Barrages=="1":
+            Barrages=False
+        if debug==True:
+            print("Barrages = {}".format(Barrages))
 
-    #On fait de le méthode de rencontre un booléen
-    session['Methode_rencontre']=request.form['methode_rencontre']
-    if session['Methode_rencontre'] == 'Force_berger':
-        session['Methode_rencontre'] = True
-    else:
-        session['Methode_rencontre'] = False
+        #On fait de le méthode de rencontre un booléen
+        session['Methode_rencontre']=request.form['methode_rencontre']
+        if session['Methode_rencontre'] == 'Force_berger':
+            session['Methode_rencontre'] = True
+        else:
+            session['Methode_rencontre'] = False
 
-    #On récupère la liste des matchs
-    #Matchlist est de la forme [(numéro_round,id_j1,id_j2),...]
-    Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,session['Methode_rencontre'],debug_algo)
-    session['Matchlist']=Matchlist
-    if debug==True:
-        print("Liste des matchs par ID :\n{}".format(Matchlist))
-    session['Nbr_matchs'] = len(Matchlist)
+################################################################################
+#Instructions en cas de ligue
+################################################################################
 
-    #On crée les tables de la base de donnée
-    tournoi_DB.openDB()
-    tournoi_DB.createTables()
-    #On donne la liste des joueurs à la base de donnée
-    tournoi_DB.createPlayers(session['Players'])
+    if session['Type_tournoi'] == "Ligue" :
+        #On récupère la liste des matchs
+        #Matchlist est de la forme [(numéro_round,id_j1,id_j2),...]
+        Matchlist=tournament.getMatchList(session['Nbr_player'],Extended,session['Methode_rencontre'],debug_algo)
+        session['Matchlist']=Matchlist
+        if debug==True:
+            print("Liste des matchs par ID :\n{}".format(Matchlist))
+        session['Nbr_matchs'] = len(Matchlist)
 
-    #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
-    #Matchlist_pseudo est de la forme [(numéro_round,pseudo_j1,pseudo_j2),...]
-    session['Matchlist_pseudo']=deepcopy(session['Matchlist'])
-    for i in range(len(session['Matchlist_pseudo'])):
-        session['Matchlist_pseudo'][i]=list(session['Matchlist_pseudo'][i])
-    for i in session['Matchlist_pseudo']:
-        i[1]=tournoi_DB.getPseudo(i[1])
-        i[2]=tournoi_DB.getPseudo(i[2])
-    if debug==True:
-        print("Liste des matchs par pseudo : \n{}".format(session['Matchlist_pseudo']))
-    #On donne la liste des matchs à la DB
-    tournoi_DB.creatematch(session['Matchlist_pseudo'])
-    #On utilise le template display.html
-    return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
+        #On crée les tables de la base de donnée
+        tournoi_DB.openDB()
+        tournoi_DB.createTables()
+        #On donne la liste des joueurs à la base de donnée
+        tournoi_DB.createPlayers(session['Players'])
+
+        #On crée une liste des matchs avec le pseudo des joueurs au lieu de leur IDs
+        #Matchlist_pseudo est de la forme [(numéro_round,pseudo_j1,pseudo_j2),...]
+        session['Matchlist_pseudo']=deepcopy(session['Matchlist'])
+        for i in range(len(session['Matchlist_pseudo'])):
+            session['Matchlist_pseudo'][i]=list(session['Matchlist_pseudo'][i])
+        for i in session['Matchlist_pseudo']:
+            i[1]=tournoi_DB.getPseudo(i[1])
+            i[2]=tournoi_DB.getPseudo(i[2])
+        if debug==True:
+            print("Liste des matchs par pseudo : \n{}".format(session['Matchlist_pseudo']))
+        #On donne la liste des matchs à la DB
+        tournoi_DB.creatematch(session['Matchlist_pseudo'])
+
+        #On utilise le template display.html
+        return render_template('display.html.j2' , players=session['Players'] ,nbr_player=session['Nbr_player'], type_tournoi=session['Type_tournoi'], matchlist=Matchlist, matchlist_pseudo=session['Matchlist_pseudo'], nbr_matchs=session['Nbr_matchs'], mode_points=session['Mode_points'])
+
+################################################################################
+#Instructions en cas de simple élimination
+################################################################################
+
+    if session['Type_tournoi'] == "Simple élimination" :
+        session['InitialPlayers'] = session['Players']
+
+        return 0
 
 
 
